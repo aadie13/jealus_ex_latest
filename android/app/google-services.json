@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "385737115436",
+    "project_id": "jealous-ex",
+    "storage_bucket": "jealous-ex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385737115436:android:62602cac72c44b21eb8e89",
+        "android_client_info": {
+          "package_name": "com.adilali.jealus_ex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385737115436-efogtihhif5vijihoc3f2kbq2qbnc52u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa1W8QTMWhrwSw0WaPR7Fw5VgucOLmLlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385737115436-efogtihhif5vijihoc3f2kbq2qbnc52u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
