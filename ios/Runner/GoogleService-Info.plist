@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>385737115436-9cf46gl3ppp1bjmag8e580b3q9cs5n1h.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.385737115436-9cf46gl3ppp1bjmag8e580b3q9cs5n1h</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBkRbtJLyyCVlEBMQq7M8YNY8HjHMQWycs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>385737115436</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.adilali.jealusex</string>
+	<key>PROJECT_ID</key>
+	<string>jealous-ex</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jealous-ex.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:385737115436:ios:5e9391bc6dcc860feb8e89</string>
+</dict>
+</plist>
