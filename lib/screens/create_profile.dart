@@ -103,7 +103,7 @@ class CreateUserProfileScreen extends HookWidget {
                         // final user = context.read(authRepositoryProvider).getCurrentUser();
                         // UserProfile userProfile = UserProfile(name: GivenNameTextEditingController.text, phone:  phoneTextEditingController.text);
                         // context.read(userProfileRepositoryProvider).createUserProfile(userId: user!.uid, user: userProfile);
-                        context.read(userProfileControllerProvider).addUserProfile(name: GivenNameTextEditingController.text, phone: phoneTextEditingController.text);
+                        context.read(userControllerProvider).addUserProfile(name: GivenNameTextEditingController.text, phone: phoneTextEditingController.text);
                         Fluttertoast.showToast(msg:"Profile created!");
                         Navigator.of(context).pushReplacementNamed('/home');
                       }

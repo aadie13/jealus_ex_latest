@@ -4,29 +4,29 @@ import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/repositories/user_profile_repository.dart';
 
-final userProfileExceptionProvider = StateProvider<CustomException?>((_) => null);
+final userExceptionProvider = StateProvider<CustomException?>((_) => null);
 
-final userProfileControllerProvider = StateNotifierProvider<UserProfileController>(
+final userControllerProvider = StateNotifierProvider<UserController>(
       (ref) {
     final user = ref.watch(authControllerProvider.state);
-    return UserProfileController(ref.read, user?.uid);
+    return UserController(ref.read, user?.uid);
   },
 );
 
-class UserProfileController extends StateNotifier<AsyncValue<List<UserProfile>>> {
+class UserController extends StateNotifier<AsyncValue<List<UserProfile>>> {
 
   final Reader _read;
   final String? _userId;
 
-  UserProfileController(this._read,this._userId):super(AsyncValue.loading()){
-    retrieveUserProfiles();
+  UserController(this._read,this._userId):super(AsyncValue.loading()){
+    retrieveUsers();
 
   }
 
-  Future<void> retrieveUserProfiles({bool isRefreshing = false}) async{
+  Future<void> retrieveUsers({bool isRefreshing = false}) async{
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final userProfile = await _read(userProfileRepositoryProvider).retrieveUserProfile();
+      final userProfile = await _read(usersRepositoryProvider).retrieveUsers();
       if (mounted){
         state = AsyncValue.data(userProfile);
       }
@@ -39,18 +39,18 @@ class UserProfileController extends StateNotifier<AsyncValue<List<UserProfile>>>
     required String phone}) async{
     try {
       final userProfile = UserProfile(name: name, phone: phone);
-      final userProfileID = await _read(userProfileRepositoryProvider).createUserProfile(userId: _userId!, user: userProfile);
+      final userProfileID = await _read(usersRepositoryProvider).createUser(userId: _userId!, user: userProfile);
       state.whenData((userProfiles) =>
       state = AsyncValue.data(userProfiles..add(userProfile.copyWith(id: userProfileID)))
       );
     } on CustomException catch(e, st){
-      _read(userProfileExceptionProvider).state = e;
+      _read(userExceptionProvider).state = e;
     }
   }
 
   Future<void> updateUserProfile({required UserProfile updatedUserProfile}) async {
     try {
-      await _read(userProfileRepositoryProvider).updateUserProfile(user: updatedUserProfile);
+      await _read(usersRepositoryProvider).updateUser(user: updatedUserProfile);
       state.whenData((userProfiles) {
         state = AsyncValue.data([
           for (final userProfile in userProfiles)
@@ -58,18 +58,18 @@ class UserProfileController extends StateNotifier<AsyncValue<List<UserProfile>>>
         ]);
       });
     } on CustomException catch (e){
-      _read(userProfileExceptionProvider).state = e;
+      _read(userExceptionProvider).state = e;
     }
   }
 
   Future<void> deleteUserProfile({required String userProfileId}) async {
     try {
-      await _read(userProfileRepositoryProvider).deleteUserProfile(userId: userProfileId);
+      await _read(usersRepositoryProvider).deleteUser(userId: userProfileId);
       state.whenData((userProfiles) =>
       state = AsyncValue.data(userProfiles..removeWhere((element) => element.id == userProfileId))
       );
     } on CustomException catch (e){
-      _read(userProfileExceptionProvider).state = e;
+      _read(userExceptionProvider).state = e;
     }
   }
 }

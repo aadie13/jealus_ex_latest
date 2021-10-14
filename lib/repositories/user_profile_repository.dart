@@ -8,14 +8,14 @@ import '../general_providers.dart';
 
 abstract class BaseUserProfileRepository {
 
-  Future<List<UserProfile>> retrieveUserProfile();
-  Future<String> createUserProfile({required String userId, required UserProfile user});
-  Future<void> updateUserProfile({required UserProfile user});
-  Future<void> deleteUserProfile({required String userId});
+  Future<List<UserProfile>> retrieveUsers();
+  Future<String> createUser({required String userId, required UserProfile user});
+  Future<void> updateUser({required UserProfile user});
+  Future<void> deleteUser({required String userId});
 
 }
 
-final userProfileRepositoryProvider =
+final usersRepositoryProvider =
 Provider<UserProfileRepository>((ref) => UserProfileRepository(ref.read));
 
 class UserProfileRepository implements BaseUserProfileRepository{
@@ -23,19 +23,19 @@ class UserProfileRepository implements BaseUserProfileRepository{
   const UserProfileRepository(this._read);
 
   @override
-  Future<String> createUserProfile ({required String userId ,required UserProfile user}) async {
+  Future<String> createUser ({required String userId ,required UserProfile user}) async {
     try {
       final docRef = await _read(firebaseFirestoreProvider)
-          .userListRef(userId)
-          .add(user.toDocument());
-      return docRef.id;
+          .collection('Users').doc(userId)
+          .set(user.toDocument());
+      return userId;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);
     }
   }
 
   @override
-  Future<void> updateUserProfile({required UserProfile user}) async{
+  Future<void> updateUser({required UserProfile user}) async{
     try {
       await _read(firebaseFirestoreProvider)
           .collection('Users')
@@ -46,7 +46,7 @@ class UserProfileRepository implements BaseUserProfileRepository{
     }
   }
   @override
-  Future<void> deleteUserProfile({required String userId}) async {
+  Future<void> deleteUser({required String userId}) async {
     try {
       await _read(firebaseFirestoreProvider)
           .collection('Users')
@@ -58,7 +58,7 @@ class UserProfileRepository implements BaseUserProfileRepository{
   }
 
   @override
-  Future<List<UserProfile>> retrieveUserProfile() async{
+  Future<List<UserProfile>> retrieveUsers() async{
     try {
       final snap = await _read(firebaseFirestoreProvider)
           .collection('Users')
