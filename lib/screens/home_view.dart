@@ -2,22 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
+import 'package:jealus_ex/models/service_model.dart';
+import 'package:jealus_ex/models/booking_model.dart';
+import 'package:jealus_ex/screens - booking service/book_oil_change.dart';
+import 'package:jealus_ex/screens - booking service/book_tire_change.dart';
+import 'package:jealus_ex/screens - booking service/book_detailing.dart';
+import 'package:jealus_ex/screens - booking service/book_car_inspection.dart';
+import 'package:jealus_ex/screens - booking service/book_battery_change.dart';
 
 class HomeView extends HookWidget{
+  //final List<String> services4customer = ["Oil Change","Tire Swap","Detailing","Cleaning","Inspection Only"];
+  List<Widget> pageServiceList = [BookOilChange(),BookTireChange(),BookDetailing(),BookInspection(),BookBatteryChange()];
+  //TODO: implement battery change and inspection fully
+  int _currentServiceIndex = 0;
+  //TODO: create a vehicle and pass it to all the New_Services pages
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider.state);
     return Scaffold(
-        appBar: AppBar(
-          title: new Text('Home View TBD',style: TextStyle(fontSize: 25.0),),
-          leading: authControllerState != null
-          ? IconButton(icon: const Icon(Icons.logout), onPressed: () => context.read(authControllerProvider).signOut(),)
-          : null,
-        ),
-      body: Column(
-        children: [
-          Text(authControllerState != null ? "signedIn":"Loggedout"),
-        ],
+      appBar: AppBar(
+        title: Column(
+            children: [
+              Text("Select A Service", style: TextStyle(fontSize: 25.0),),
+              GestureDetector(
+                child: Text("User's Selected car make, model and year", style: TextStyle(fontSize: 12.0),),
+                onTap: (){
+                  print("tapped subtitle");
+                  //TODO: add address of HOME, if user pressed address allow to change at his discretion
+                  //TODO: if tapped on car, user can select from the list of its vehicles of add a new vehicle.
+                },
+              )
+            ]),
+
+        //TODO : Add a row showing the Car information and address
+      ),
+      body: ListView.builder(
+        itemCount: servicesList.length,
+        itemBuilder: (BuildContext context, int index) {
+          Service newService = servicesList[index];
+          //Booking newBoking = new Booking(newService, null, null, null,null, null);
+          _currentServiceIndex = index;
+          return Card(
+            child: ListTile(
+              title: Text(newService.serviceName, style: TextStyle(fontSize: 25.0),),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 12.0, bottom: 9),
+                child: Text("\$${newService.serviceCost}",style: TextStyle(fontSize: 18.0),),
+              ),
+              //TODO Add leading and trailing here to follow the video on youtube leading: Image.network(Service.imageURL()
+              trailing: Icon(Icons.arrow_forward_ios_rounded),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => pageServiceList[index]));
+              },
+            ),
+          );
+          //buildServiceCard(context, index);
+        },
+
       ),
     );
   }

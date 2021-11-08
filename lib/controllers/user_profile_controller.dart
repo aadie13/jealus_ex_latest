@@ -2,6 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
+import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/repositories/user_profile_repository.dart';
 
 final userExceptionProvider = StateProvider<CustomException?>((_) => null);
@@ -19,8 +20,9 @@ class UserController extends StateNotifier<AsyncValue<List<UserProfile>>> {
   final String? _userId;
 
   UserController(this._read,this._userId):super(AsyncValue.loading()){
-    retrieveUsers();
-
+    if (_userId !=null){
+      retrieveUsers();
+    }
   }
 
   Future<void> retrieveUsers({bool isRefreshing = false}) async{
@@ -36,9 +38,10 @@ class UserController extends StateNotifier<AsyncValue<List<UserProfile>>> {
   }
 
   Future<void> addUserProfile({required String name,
-    required String phone}) async{
+    required String phone, required String residenceType,
+    required String address}) async{
     try {
-      final userProfile = UserProfile(name: name, phone: phone);
+      final userProfile = UserProfile(name: name, phone: phone, residenceType: residenceType, address: address);
       final userProfileID = await _read(usersRepositoryProvider).createUser(userId: _userId!, user: userProfile);
       state.whenData((userProfiles) =>
       state = AsyncValue.data(userProfiles..add(userProfile.copyWith(id: userProfileID)))

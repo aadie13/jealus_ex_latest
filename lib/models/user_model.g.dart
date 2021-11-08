@@ -11,7 +11,9 @@ _$_UserProfile _$_$_UserProfileFromJson(Map<String, dynamic> json) {
     id: json['id'] as String?,
     name: json['name'] as String,
     phone: json['phone'] as String,
-    isBeautician: json['isBeautician'] as bool? ?? false,
+    residenceType: json['residenceType'] as String,
+    address: json['address'] as String,
+    isMechanic: json['isMechanic'] as bool? ?? false,
   );
 }
 
@@ -20,5 +22,7 @@ Map<String, dynamic> _$_$_UserProfileToJson(_$_UserProfile instance) =>
       'id': instance.id,
       'name': instance.name,
       'phone': instance.phone,
-      'isBeautician': instance.isBeautician,
+      'residenceType': instance.residenceType,
+      'address': instance.address,
+      'isMechanic': instance.isMechanic,
     };

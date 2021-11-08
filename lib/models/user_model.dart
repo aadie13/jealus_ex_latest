@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jealus_ex/models/vehicle_model.dart';
 //************************************************************//
 part 'user_model.g.dart';
 part 'user_model.freezed.dart';
@@ -12,10 +13,12 @@ abstract class UserProfile implements _$UserProfile {
     String? id,
     required String name,
     required String phone,
-    //required String residenceType,
+    required String residenceType,
+    required String address,
+    //required List<Vehicle> vehicles,
     //TODO: implement address to be able to track location
     //required List<Booking> booking,
-    @Default(false) bool isBeautician,
+    @Default(false) bool isMechanic,
   }) = _UserProfile;
 
   // factory UserProfile.empty() => UserProfile(name: '', phone: '',

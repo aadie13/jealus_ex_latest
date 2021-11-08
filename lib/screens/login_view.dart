@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jealus_ex/controllers/auth_controller.dart';
 //****************************************************//
 import 'package:jealus_ex/repositories/auth_repository.dart';
 
@@ -97,8 +98,22 @@ class LogInView extends StatelessWidget{
                         Fluttertoast.showToast(msg: "Password must be provided");
                       } else {
                         //TODO: loginAndAuthenticateUser(context);
-                        context.read(authRepositoryProvider).signInWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text);
-                        Navigator.of(context).pushReplacementNamed('/home');
+                        context.read(authRepositoryProvider).signInWithEmailAndPassword(emailTextEditingController.text,
+                            passwordTextEditingController.text)
+                            .then((user) {
+                              var user = context.read(authControllerProvider).state;
+                              if (user != null){
+                                Navigator.of(context).pushReplacementNamed('/home');
+                              } else {
+                                buildLoading();
+                              }
+
+                        }).catchError((error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                          print(error.toString());
+                          print("Profile not created");
+                        });
+
                       }
                     },
                   ),
@@ -107,7 +122,15 @@ class LogInView extends StatelessWidget{
             ),
             FlatButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/register');
+                var user = context.read(authControllerProvider.state);
+                if (user == null){
+                  print('moving to Registeration Page');
+                  Navigator.of(context).pushReplacementNamed('/register');
+                }else{
+                  print('User Already created. Try Logging In');
+                  Fluttertoast.showToast(msg: 'User Already created. Try Logging In');
+                }
+
                 //TODO: Navigator.pushNamedAndRemoveUntil(
                 //context, RegistrationScreen.idScreen, (route) => false);
               },
@@ -118,4 +141,13 @@ class LogInView extends StatelessWidget{
       ),
     );
   }
+
+  Widget buildLoading() => Stack(
+    fit: StackFit.expand,
+    children: <Widget> [
+      Center(child: CircularProgressIndicator(),)
+    ],
+  );
+
 }
+

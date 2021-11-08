@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.adilali.jealus_ex">
+
    <application
+        tools:replace="android:allowBackup"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:label="jealus_ex"
         android:icon="@mipmap/ic_launcher">
+        android:usesCleartextTraffic = "true"
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -38,4 +44,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>
