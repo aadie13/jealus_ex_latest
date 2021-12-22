@@ -6,6 +6,30 @@ import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/vehicle_repository.dart';
 
+enum VehicleListFilter {
+  all,
+  selected,
+}
+
+final vehicleListFilterProvider =
+StateProvider<VehicleListFilter>((_) => VehicleListFilter.all);
+
+final selectedVehicleListProvider = Provider<List<Vehicle>>((ref) {
+  final vehicleListFilterState = ref.watch(vehicleListFilterProvider).state;
+  final vehicleListState = ref.watch(vehicleControllerProvider.state);
+  return vehicleListState.maybeWhen(
+      data: (vehicles) {
+        return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
+
 final vehicleExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 final vehicleControllerProvider = StateNotifierProvider<VehicleController>(
@@ -38,11 +62,24 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
     }
   }
 
-  Future<void> addVehicle({required String vehicleMake,
+  // Future<void> retrieveBookedVehicles({bool isRefreshing = false}) async{
+  //   if (isRefreshing) state = AsyncValue.loading();
+  //   try {
+  //     final vehicle = await _read(vehicleRepositoryProvider).retrieveBookedVehicles(userId: _userId!);
+  //     if (mounted){
+  //       state = AsyncValue.data(vehicle);
+  //     }
+  //   } on CustomException catch(e, st){
+  //     state = AsyncValue.error(e, st);
+  //   }
+  // }
+
+
+  Future<void> addVehicle({required String nickName, required String vehicleMake,
     required String vehicleModel, required String vehicleYear,
     required String engineSize, required String tireSpec}) async{
     try {
-      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec);
+      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName);
       final vehicleID = await _read(vehicleRepositoryProvider).createVehicle(userId: _userId!, vehicle: vehicle);
       state.whenData((vehicles) =>
       state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))

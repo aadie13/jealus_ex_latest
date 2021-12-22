@@ -12,6 +12,7 @@ abstract class Vehicle with _$Vehicle {
 
   const factory Vehicle({
     String? id,
+    required String nickName,
     required String vehicleMake,
     required String vehicleModel,
     required String vehicleYear,

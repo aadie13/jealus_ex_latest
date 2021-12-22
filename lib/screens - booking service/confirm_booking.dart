@@ -1,15 +1,19 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jealus_ex/Dialogs/select_vehicle.dart';
 import 'package:jealus_ex/controllers/booking_controller.dart';
+import 'package:jealus_ex/controllers/vehicles_controller.dart';
 import 'package:jealus_ex/models/service_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
+import 'package:jealus_ex/controllers/auth_controller.dart';
 
-class ConfirmBooking extends StatefulWidget {
+class ConfirmBooking extends HookWidget {
 
   final int serviceIndex;
   final String? typeSpecific;
@@ -19,64 +23,95 @@ class ConfirmBooking extends StatefulWidget {
   final DateTime selectedDate;
   final TimeOfDay startTime;
   //final int? durationMins; //This is final booking duration which will change from service duration depending on how any vehicles are chosen
+  const ConfirmBooking({Key? key, required this.serviceIndex, this.typeSpecific, this.detailingPackage, this.numberOfTires2Swap, this.numberofTires2Store, required this.selectedDate, required this.startTime}) : super(key: key);
 
-
-  ConfirmBooking({Key? key, required this.serviceIndex, this.typeSpecific, this.detailingPackage, this.numberOfTires2Swap, this.numberofTires2Store, required this.selectedDate, required this.startTime}) : super(key: key);
-  @override
-  _ConfirmBookingState createState() => _ConfirmBookingState();
-}
-
-class _ConfirmBookingState extends State<ConfirmBooking> {
   @override
   Widget build(BuildContext context) {
+    final List<Vehicle> _vehiclesForBooking = [];
+    final bookedVehiclesList = useProvider(selectedVehicleListProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Confirm the details of your booking'),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => SelectVehicleDialog.show(context),
+      //   child: const Icon(Icons.directions_car_sharp),
+      // ),
       body: Container(
         child: Column(
           children: <Widget> [
             Text(
-                servicesList[widget.serviceIndex].serviceName
+                servicesList[this.serviceIndex].serviceName
             ),
             Text(
-                widget.serviceIndex.toString()
+                this.serviceIndex.toString()
             ),
             Text(
-              widget.typeSpecific ?? '',
+              this.typeSpecific ?? '',
             ),
             Text(
-              widget.detailingPackage ?? '',
+              this.detailingPackage ?? '',
             ),
             Text(
-              widget.numberOfTires2Swap.toString() ?? "0",
+              this.numberOfTires2Swap.toString() ?? "0",
             ),
             Text(
-              widget.numberofTires2Store.toString() ?? "0",
+              this.numberofTires2Store.toString() ?? "0",
             ),
+            Text(
+              'Number of Selected vehicles = ${context.read(selectedVehicleListProvider).length.toString()}',
+            ),
+            Text(
+              context.read(authControllerProvider).state!.uid.toString(),
+            ),
+            ElevatedButton(child: const Icon(Icons.directions_car_sharp),
+                style: ElevatedButton.styleFrom(
+                  primary: context.read(selectedVehicleListProvider).length > 0 ? Colors.green : Colors.red,
+                ),
+                onPressed: () => SelectVehicleDialog.show(context),),
+            SizedBox(height: 12.0,),
             RaisedButton(
                 child: Text("Confirm Booking"),
                 onPressed: () async{
-                  //create a temp service provider //TODO: add a page before this to select a service provider and pass to this page
-                  Vehicle tempVeh = Vehicle(vehicleMake: 'Honda', vehicleModel: 'Civic', vehicleYear: "2010", engineSize: "1.8L", tireSpec: "195/65R15");
-                  List<Vehicle> tempVehicleListForServiceProvider = [tempVeh];
-                  List<Vehicle> vehicleListForThisBooking;
-                  await addBookedVehiclesToBooking(vehicleListForThisBooking);
-                  UserProfile tempServiceProvider = UserProfile(name: "Adil", phone: "647777", residenceType: "Condo", address: "123 St",);// vehicles: tempVehicleListForServiceProvider);
-                  Service service = Service(serviceName: servicesList[widget.serviceIndex].serviceName, serviceCost: servicesList[widget.serviceIndex].serviceCost,
-                      serviceDurationMins: servicesList[widget.serviceIndex].serviceDurationMins, typeSpecific: widget.typeSpecific,
-                      detailingPackage: widget.detailingPackage, numberofTires2Store: widget.numberofTires2Store, numberOfTires2Swap: widget.numberOfTires2Swap);
-                  //TODO: change the above. All the fields of a service cannot be populated for oil change and so on....
-                  await context.read(bookingsControllerProvider).addBooking(serviceProvider: tempServiceProvider,
-                      startDate: widget.selectedDate,
-                      startTimeHrs: widget.startTime.hour,
-                      startTimeMins: widget.startTime.minute,
-                      service: service,
-                      vehicles: tempVehicleListForServiceProvider);
-                  //await db.collection("Bookings").add(widget.booking.toJason());
-                  //MaterialPageRoute(builder: (context) => ConfirmBooking(typeSpecific: widget.typeSpecific, serviceIndex: widget.serviceIndex, selectedDate: selectedDate, startTime: selectedTime, detailingPackage: widget.detailingPackage, numberOfTires2Swap: widget.numberOfTires2Swap, numberofTires2Store: widget.numberofTires2Store));
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+
+                  //TODO: each booking needs to have a list of vehicles
+                  //TODO: during the process of booking a service the user will select the vehicles to be included in this service
+                  //TODO: Once the user selects vehicles to be serviced out of his own veicles, the "isBooked" become true. after the booking is complete change this to false.
+                  //TODO: make sure to add a method in vehiclesController.dart that adds a list of "isBooked==true" vehicles to the current booking vehicle
+                  //TODO
+                  //TODO: add a page before this to select a service provider and pass to this page
+                  //Vehicle tempVeh = Vehicle(vehicleMake: 'Honda', vehicleModel: 'Civic', vehicleYear: "2010", engineSize: "1.8L", tireSpec: "195/65R15");
+                  //List<Vehicle> tempVehicleListForBooking = context.read(vehicleControllerProvider).retrieveBookedVehicles();
+                  //List<Vehicle> tempVehicleListForServiceProvider = [tempVeh];
+                  //List<Vehicle> vehicleListForThisBooking;
+                  //await addBookedVehiclesToBooking(vehicleListForThisBooking);
+                  //var bookedVehiclesReference = context.read(vehicleControllerProvider).retrieveBookedVehicles();
+                  //bookedVehiclesList.forEach((element) { _vehiclesForBooking.add(element);});
+                  //UserProfile tempServiceProvider = UserProfile(name: "Adil", phone: "647777", residenceType: "Condo", address: "123 St",id: '00001');// vehicles: tempVehicleListForServiceProvider);
+                  //TODO: implement being able to select a service provider filtered by distance or ratings
+                  Service service = Service(serviceName: servicesList[this.serviceIndex].serviceName, serviceCost: servicesList[this.serviceIndex].serviceCost,
+                      serviceDurationMins: servicesList[this.serviceIndex].serviceDurationMins, typeSpecific: this.typeSpecific,
+                      detailingPackage: this.detailingPackage, numberofTires2Store: this.numberofTires2Store, numberOfTires2Swap: this.numberOfTires2Swap);
+                  var user = context.read(authControllerProvider.state);
+                  if (user != null){
+                    if (context.read(selectedVehicleListProvider).length > 0){
+                      //TODO: change the above. All the fields of a service cannot be populated for oil change and so on....
+                      await context.read(bookingsControllerProvider).addBooking(
+                        startDate: selectedDate,
+                        startTimeHrs: startTime.hour,
+                        startTimeMins: startTime.minute,
+                        service: service,);
+                      //vehicles: tempVehicleListForServiceProvider).then((value) => null);
+                      //await db.collection("Bookings").add(widget.booking.toJason());
+                      //MaterialPageRoute(builder: (context) => ConfirmBooking(typeSpecific: widget.typeSpecific, serviceIndex: widget.serviceIndex, selectedDate: selectedDate, startTime: selectedTime, detailingPackage: widget.detailingPackage, numberOfTires2Swap: widget.numberOfTires2Swap, numberofTires2Store: widget.numberofTires2Store));
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    } else {
+                      SelectVehicleDialog.show(context);
+                    }
+                  } else{
+                    Fluttertoast.showToast(msg: "User ID not found");
+                  }
                 }),
           ],
         ),
@@ -86,10 +121,7 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
 
     );
   }
-
-  addBookedVehiclesToBooking(List<Vehicle> vehicleListForThisBooking) {
-
-
-
-  }
 }
+
+
+

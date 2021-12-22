@@ -22,6 +22,7 @@ class _$VehicleTearOff {
 
   _Vehicle call(
       {String? id,
+      required String nickName,
       required String vehicleMake,
       required String vehicleModel,
       required String vehicleYear,
@@ -30,6 +31,7 @@ class _$VehicleTearOff {
       bool isBooked = false}) {
     return _Vehicle(
       id: id,
+      nickName: nickName,
       vehicleMake: vehicleMake,
       vehicleModel: vehicleModel,
       vehicleYear: vehicleYear,
@@ -50,6 +52,7 @@ const $Vehicle = _$VehicleTearOff();
 /// @nodoc
 mixin _$Vehicle {
   String? get id => throw _privateConstructorUsedError;
+  String get nickName => throw _privateConstructorUsedError;
   String get vehicleMake => throw _privateConstructorUsedError;
   String get vehicleModel => throw _privateConstructorUsedError;
   String get vehicleYear => throw _privateConstructorUsedError;
@@ -68,6 +71,7 @@ abstract class $VehicleCopyWith<$Res> {
       _$VehicleCopyWithImpl<$Res>;
   $Res call(
       {String? id,
+      String nickName,
       String vehicleMake,
       String vehicleModel,
       String vehicleYear,
@@ -87,6 +91,7 @@ class _$VehicleCopyWithImpl<$Res> implements $VehicleCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? nickName = freezed,
     Object? vehicleMake = freezed,
     Object? vehicleModel = freezed,
     Object? vehicleYear = freezed,
@@ -99,6 +104,10 @@ class _$VehicleCopyWithImpl<$Res> implements $VehicleCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      nickName: nickName == freezed
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
       vehicleMake: vehicleMake == freezed
           ? _value.vehicleMake
           : vehicleMake // ignore: cast_nullable_to_non_nullable
@@ -134,6 +143,7 @@ abstract class _$VehicleCopyWith<$Res> implements $VehicleCopyWith<$Res> {
   @override
   $Res call(
       {String? id,
+      String nickName,
       String vehicleMake,
       String vehicleModel,
       String vehicleYear,
@@ -154,6 +164,7 @@ class __$VehicleCopyWithImpl<$Res> extends _$VehicleCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? nickName = freezed,
     Object? vehicleMake = freezed,
     Object? vehicleModel = freezed,
     Object? vehicleYear = freezed,
@@ -166,6 +177,10 @@ class __$VehicleCopyWithImpl<$Res> extends _$VehicleCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      nickName: nickName == freezed
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
       vehicleMake: vehicleMake == freezed
           ? _value.vehicleMake
           : vehicleMake // ignore: cast_nullable_to_non_nullable
@@ -199,6 +214,7 @@ class __$VehicleCopyWithImpl<$Res> extends _$VehicleCopyWithImpl<$Res>
 class _$_Vehicle extends _Vehicle {
   const _$_Vehicle(
       {this.id,
+      required this.nickName,
       required this.vehicleMake,
       required this.vehicleModel,
       required this.vehicleYear,
@@ -212,6 +228,8 @@ class _$_Vehicle extends _Vehicle {
 
   @override
   final String? id;
+  @override
+  final String nickName;
   @override
   final String vehicleMake;
   @override
@@ -228,7 +246,7 @@ class _$_Vehicle extends _Vehicle {
 
   @override
   String toString() {
-    return 'Vehicle(id: $id, vehicleMake: $vehicleMake, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, engineSize: $engineSize, tireSpec: $tireSpec, isBooked: $isBooked)';
+    return 'Vehicle(id: $id, nickName: $nickName, vehicleMake: $vehicleMake, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, engineSize: $engineSize, tireSpec: $tireSpec, isBooked: $isBooked)';
   }
 
   @override
@@ -237,6 +255,9 @@ class _$_Vehicle extends _Vehicle {
         (other is _Vehicle &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.nickName, nickName) ||
+                const DeepCollectionEquality()
+                    .equals(other.nickName, nickName)) &&
             (identical(other.vehicleMake, vehicleMake) ||
                 const DeepCollectionEquality()
                     .equals(other.vehicleMake, vehicleMake)) &&
@@ -261,6 +282,7 @@ class _$_Vehicle extends _Vehicle {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(nickName) ^
       const DeepCollectionEquality().hash(vehicleMake) ^
       const DeepCollectionEquality().hash(vehicleModel) ^
       const DeepCollectionEquality().hash(vehicleYear) ^
@@ -282,6 +304,7 @@ class _$_Vehicle extends _Vehicle {
 abstract class _Vehicle extends Vehicle {
   const factory _Vehicle(
       {String? id,
+      required String nickName,
       required String vehicleMake,
       required String vehicleModel,
       required String vehicleYear,
@@ -294,6 +317,8 @@ abstract class _Vehicle extends Vehicle {
 
   @override
   String? get id => throw _privateConstructorUsedError;
+  @override
+  String get nickName => throw _privateConstructorUsedError;
   @override
   String get vehicleMake => throw _privateConstructorUsedError;
   @override

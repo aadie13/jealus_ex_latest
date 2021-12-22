@@ -1,17 +1,24 @@
+//import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jealus_ex/controllers/vehicles_controller.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/extensions/firebase_firestore_extension.dart';
+import 'package:jealus_ex/models/vehicle_model.dart';
 import '../general_providers.dart';
 import 'package:jealus_ex/models/booking_model.dart';
+
 
 
 abstract class BaseBookingRepository {
 
   Future<List<Booking>> retrieveBookings({required String userId});
   Future<String> createBooking({required String userId, required Booking booking});
+  //Future<void> confirmVehicles({required String userId, required String bookingID});//, required List<Vehicle> vehicles});
   Future<void> updateBooking({required String userId, required Booking booking});
   Future<void> deleteBooking({required String userId, required String bookingId});
 
@@ -31,12 +38,43 @@ class BookingRepository implements BaseBookingRepository{
     try {
       final docRef = await _read(firebaseFirestoreProvider)
           .userBookingsRef(userId).add(booking.toDocument());
+      final VRef = await _read(firebaseFirestoreProvider)
+          .userBookedVehiclesRef(userId, docRef.id);//get inside the current booking to add the vehicles into
+      final selectedVehiclesList = await _read(selectedVehicleListProvider);
+      //final selectedVehiclesList = useProvider(selectedVehicleListProvider);
+      final vehiclesControllerRef = await _read(vehicleControllerProvider);
+      for (int i = 0 ; i < selectedVehiclesList.length ; i++) {
+        VRef.add(selectedVehiclesList[i].toDocument());
+        vehiclesControllerRef.updateVehicle(
+          updatedVehicle: selectedVehiclesList[i].copyWith(
+              isBooked: !selectedVehiclesList[i].isBooked,
+          ),
+        );
+      }
       return docRef.id;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);
     }
   }
 
+  // @override
+  // Future<void> confirmVehicles({required String userId, required String bookingID}) async {//, required List<Vehicle> vehicles}) async {
+  //   try {
+  //     final docRef = await _read(firebaseFirestoreProvider)
+  //         .userBookedVehiclesRef(userId, bookingID);//get inside the current booking to add the vehicles into
+  //     final filteredVehiclesList = useProvider(filteredVehicleListProvider);
+  //     for (int i = 0 ; i < filteredVehiclesList.length ; i++) {
+  //       docRef.add(filteredVehiclesList[i].toDocument());
+  //     }
+  //     // vehicles.forEach((element) =>  {
+  //     //   if (element.isBooked){
+  //     //     docRef.add(element.toDocument())
+  //     //   }
+  //     // });
+  //   } on FirebaseException catch (e) {
+  //     throw CustomException(message: e.message);
+  //   }
+  // }
   @override
   Future<void> updateBooking({required String userId, required Booking booking}) async{
     try {
@@ -71,9 +109,6 @@ class BookingRepository implements BaseBookingRepository{
       throw CustomException(message: e.message);
     }
   }
-
-
-
 
 }
 

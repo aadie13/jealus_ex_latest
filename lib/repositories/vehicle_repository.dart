@@ -12,6 +12,7 @@ import 'package:jealus_ex/models/vehicle_model.dart';
 abstract class BaseVehicleRepository {
 
   Future<List<Vehicle>> retrieveVehicles({required String userId});
+  //Future<List<Vehicle>> retrieveBookedVehicles({required String userId});
   Future<String> createVehicle({required String userId, required Vehicle vehicle});
   Future<void> updateVehicle({required String userId, required Vehicle vehicle});
   Future<void> deleteVehicle({required String userId, required String vehicleId});
@@ -71,10 +72,19 @@ class VehicleRepository implements BaseVehicleRepository{
     }
   }
 
+  // @override
+  // Future<List<Vehicle>> retrieveBookedVehicles({required String userId}) async{
+  //   try {
+  //     final snap = await _read(firebaseFirestoreProvider)
+  //         .userVehicleRef(userId).where("isBooked",isEqualTo: true)//where("isBooked", "==" , true)
+  //         .get();
+  //     return snap.docs.map((doc) => Vehicle.fromDocument(doc)).toList();
+  //   } on FirebaseException catch (e) {
+  //     throw CustomException(message: e.message);
+  //   }
+  // }
 
-
-
-}
+ }
 
 
 

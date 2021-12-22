@@ -7,6 +7,7 @@ import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/booking_repository.dart';
+import 'package:jealus_ex/controllers/vehicles_controller.dart';
 
 final bookingsExceptionProvider = StateProvider<CustomException?>((_) => null);
 
@@ -39,14 +40,14 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
     }
   }
 
-  Future<void> addBooking({required UserProfile serviceProvider, //should be the mechanic user
+  Future<void> addBooking({ //should be the mechanic user
     required DateTime startDate,
     required int startTimeHrs,
     required int startTimeMins,
     required Service service,
-    required List<Vehicle> vehicles,}) async{
+  }) async{//required List<Vehicle> vehicles,}) async{
     try {
-      final booking = Booking(serviceProvider: serviceProvider, startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins, service: service, vehicles: vehicles, );
+      final booking = Booking( startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins);// vehicles: vehicles, );
       final bookingID = await _read(bookingsRepositoryProvider).createBooking(userId: _userId!, booking: booking);
       state.whenData((bookings) =>
       state = AsyncValue.data(bookings..add(booking.copyWith(id: bookingID)))
@@ -55,6 +56,25 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
       _read(bookingsExceptionProvider).state = e;
     }
   }
+
+  // Future<void> addSelectedVehicles({ //add the selected vehicles to the current booking
+  //   required String bookingID,
+  //   required List<Vehicle> vehicles,
+  // }) async{
+  //   try {
+  //     vehicles.forEach((element) {
+  //
+  //     });
+  //     //final booking = Booking(serviceProvider: serviceProvider, startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins, service: service, vehicles: vehicles, );
+  //     final bookingID = await _read(bookingsRepositoryProvider).createBooking(userId: _userId!, booking: booking);
+  //     state.whenData((bookings) =>
+  //     state = AsyncValue.data(bookings..add(booking.copyWith(id: bookingID)))
+  //     );
+  //   } on CustomException catch(e, st){
+  //     _read(bookingsExceptionProvider).state = e;
+  //   }
+  // }
+
 
   Future<void> updateBooking({required Booking updatedBooking}) async {
     try {

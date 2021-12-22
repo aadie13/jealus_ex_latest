@@ -20,6 +20,7 @@ class CreateUserProfile extends HookWidget {
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController residenceType = TextEditingController();
   TextEditingController address = TextEditingController();
+  TextEditingController vehicleNickName = TextEditingController();
   TextEditingController vehicleMake = TextEditingController();
   TextEditingController vehicleModel = TextEditingController();
   TextEditingController vehicleYear = TextEditingController();
@@ -110,6 +111,22 @@ class CreateUserProfile extends HookWidget {
                         .text, //TODO: convert this into Address model type
                     decoration: InputDecoration(
                       labelText: "ex: 395 Cook Rd, North York, ON M3J 1P3",
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  SizedBox(
+                    height: 1.0,
+                  ),
+                  TextField(
+                    controller: vehicleNickName,
+                    keyboardType: TextInputType
+                        .text, //TODO: change this so that the user can add vehicle to a collection of vehicles. Right now we can only have 1 vehicle per user
+                    decoration: InputDecoration(
+                      labelText: "Give this car a nickname",
                       labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: 10.0,
@@ -226,7 +243,12 @@ class CreateUserProfile extends HookWidget {
                         Fluttertoast.showToast(
                             msg:
                             "Enter full Adrress"); // TODO: modify this error check to make sure right format address is input
-                      } else if (vehicleMake.text.isEmpty) {
+                      } else if (vehicleNickName.text.isEmpty) {
+                        Fluttertoast.showToast(
+                            msg:
+                            "Enter a Nick Name for this Vehicle"); // TODO: modify this error check to compare with actual vehicle makes;
+                        //TODO: make sure only to list available list of vehicle makes that are supported by the mechanics
+                      }else if (vehicleMake.text.isEmpty) {
                         Fluttertoast.showToast(
                             msg:
                             "Enter the make of your Vehicle"); // TODO: modify this error check to compare with actual vehicle makes;
@@ -259,7 +281,9 @@ class CreateUserProfile extends HookWidget {
                               vehicleMake: vehicleMake.text.trim(),
                               vehicleModel: vehicleModel.text.trim(),
                               vehicleYear: vehicleYear.text.trim(),
-                              engineSize: engineSize.text.trim(), tireSpec: tireSpec.text.trim());
+                              engineSize: engineSize.text.trim(),
+                              tireSpec: tireSpec.text.trim(),
+                              nickName: vehicleNickName.text.trim());
 
                           Fluttertoast.showToast(msg: "Vehicle Added!");
                           print("Vehicle Added!");

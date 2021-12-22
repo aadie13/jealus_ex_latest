@@ -16,12 +16,14 @@ abstract class Booking implements _$Booking {
 
   const factory Booking({
     String? id, //should be the user id of the customer
-    required UserProfile serviceProvider, //should be the mechanic user
+    //required UserProfile serviceProvider, //should be the mechanic user
+    //TODO: add service provider to the booking
     required DateTime startDate,
     required int startTimeHrs,
     required int startTimeMins,
-    required Service service,//TODO: NOTE - this app allows one service per booking
-    required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
+    //required Service service,//TODO: NOTE - this app allows one service per booking
+    //TODO: add service to the booking
+    //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
     @Default(false) bool isCompleted, //is the job done? If so what are the reviews? TODO: add review setup in the app
   }) = _Booking;
 
