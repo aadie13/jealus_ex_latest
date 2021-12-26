@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jealus_ex/models/booking_model.dart';
-import 'package:jealus_ex/models/service_model.dart';
-import 'package:jealus_ex/models/user_model.dart';
+import 'package:jealus_ex/screens%20-%20booking%20service/select_vehicle_forBooking.dart';
 import 'date_time_picker.dart';
 
 
@@ -164,7 +162,7 @@ class _BookOilChangeState extends State<BookOilChange> {
               //SizedBox(width: MediaQuery.of(context).size.width * 0.60),
               Padding(
                 padding: const EdgeInsets.only(top:12.0),
-                child: Text("Schedule", style: TextStyle(fontSize: 26.0),),
+                child: Text("Proceed", style: TextStyle(fontSize: 26.0),),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 8.0, bottom: 2.0),
@@ -181,7 +179,7 @@ class _BookOilChangeState extends State<BookOilChange> {
                       }
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DateTimePicker(typeSpecific: typeSpecific,
+                        MaterialPageRoute(builder: (context) => SelectVehiclesToBook(typeSpecific: typeSpecific,
                             serviceIndex: serviceIndex)),
                       );},
                     icon: Icon(Icons.keyboard_arrow_right, size: 50,)

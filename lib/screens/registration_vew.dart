@@ -70,7 +70,7 @@ class EmailRegisterForm extends HookWidget {
                 height: 1.0,
               ),
               Text(
-                "SignUp as Rider",
+                "SignUp as Customer",
                 style: TextStyle(fontSize: 24.0, fontFamily: "Brand Bold"),
                 textAlign: TextAlign.center,
               ),

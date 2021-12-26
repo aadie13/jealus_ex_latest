@@ -9,6 +9,48 @@ import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/booking_repository.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 
+
+enum BookingsListFilter {
+  all,
+  pending,
+  completed,
+}
+
+final bookingsListFilterProvider =
+StateProvider<BookingsListFilter>((_) => BookingsListFilter.all);
+
+final completedBookingsListProvider = Provider<List<Booking>>((ref) {
+  final bookingsListFilterState = ref.watch(bookingsListFilterProvider).state;
+  final bookingsListState = ref.watch(bookingsControllerProvider.state);
+  return bookingsListState.maybeWhen(
+      data: (bookings) {
+        return bookings.where((booking) => booking.isCompleted).toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
+
+final pendingBookingsListProvider = Provider<List<Booking>>((ref) {
+  final bookingsListFilterState = ref.watch(bookingsListFilterProvider).state;
+  final bookingsListState = ref.watch(bookingsControllerProvider.state);
+  return bookingsListState.maybeWhen(
+      data: (bookings) {
+        return bookings.where((booking) => !booking.isCompleted).toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
+
 final bookingsExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 final bookingsControllerProvider = StateNotifierProvider<BookingsController>(
@@ -56,25 +98,6 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
       _read(bookingsExceptionProvider).state = e;
     }
   }
-
-  // Future<void> addSelectedVehicles({ //add the selected vehicles to the current booking
-  //   required String bookingID,
-  //   required List<Vehicle> vehicles,
-  // }) async{
-  //   try {
-  //     vehicles.forEach((element) {
-  //
-  //     });
-  //     //final booking = Booking(serviceProvider: serviceProvider, startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins, service: service, vehicles: vehicles, );
-  //     final bookingID = await _read(bookingsRepositoryProvider).createBooking(userId: _userId!, booking: booking);
-  //     state.whenData((bookings) =>
-  //     state = AsyncValue.data(bookings..add(booking.copyWith(id: bookingID)))
-  //     );
-  //   } on CustomException catch(e, st){
-  //     _read(bookingsExceptionProvider).state = e;
-  //   }
-  // }
-
 
   Future<void> updateBooking({required Booking updatedBooking}) async {
     try {

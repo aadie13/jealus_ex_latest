@@ -28,7 +28,8 @@ class _$ServiceTearOff {
       required double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
-      String? detailingPackage}) {
+      String? detailingPackage,
+      bool isCurrent = false}) {
     return _Service(
       id: id,
       serviceName: serviceName,
@@ -38,6 +39,7 @@ class _$ServiceTearOff {
       numberOfTires2Swap: numberOfTires2Swap,
       numberofTires2Store: numberofTires2Store,
       detailingPackage: detailingPackage,
+      isCurrent: isCurrent,
     );
   }
 
@@ -62,6 +64,7 @@ mixin _$Service {
   int? get numberOfTires2Swap => throw _privateConstructorUsedError;
   int? get numberofTires2Store => throw _privateConstructorUsedError;
   String? get detailingPackage => throw _privateConstructorUsedError;
+  bool get isCurrent => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -80,7 +83,8 @@ abstract class $ServiceCopyWith<$Res> {
       double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
-      String? detailingPackage});
+      String? detailingPackage,
+      bool isCurrent});
 }
 
 /// @nodoc
@@ -101,6 +105,7 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
     Object? numberOfTires2Swap = freezed,
     Object? numberofTires2Store = freezed,
     Object? detailingPackage = freezed,
+    Object? isCurrent = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -135,6 +140,10 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
           ? _value.detailingPackage
           : detailingPackage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCurrent: isCurrent == freezed
+          ? _value.isCurrent
+          : isCurrent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -152,7 +161,8 @@ abstract class _$ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
-      String? detailingPackage});
+      String? detailingPackage,
+      bool isCurrent});
 }
 
 /// @nodoc
@@ -174,6 +184,7 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
     Object? numberOfTires2Swap = freezed,
     Object? numberofTires2Store = freezed,
     Object? detailingPackage = freezed,
+    Object? isCurrent = freezed,
   }) {
     return _then(_Service(
       id: id == freezed
@@ -208,6 +219,10 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
           ? _value.detailingPackage
           : detailingPackage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCurrent: isCurrent == freezed
+          ? _value.isCurrent
+          : isCurrent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -223,7 +238,8 @@ class _$_Service extends _Service {
       required this.serviceDurationMins,
       this.numberOfTires2Swap,
       this.numberofTires2Store,
-      this.detailingPackage})
+      this.detailingPackage,
+      this.isCurrent = false})
       : super._();
 
   factory _$_Service.fromJson(Map<String, dynamic> json) =>
@@ -246,10 +262,13 @@ class _$_Service extends _Service {
   final int? numberofTires2Store;
   @override
   final String? detailingPackage;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isCurrent;
 
   @override
   String toString() {
-    return 'Service(id: $id, serviceName: $serviceName, typeSpecific: $typeSpecific, serviceCost: $serviceCost, serviceDurationMins: $serviceDurationMins, numberOfTires2Swap: $numberOfTires2Swap, numberofTires2Store: $numberofTires2Store, detailingPackage: $detailingPackage)';
+    return 'Service(id: $id, serviceName: $serviceName, typeSpecific: $typeSpecific, serviceCost: $serviceCost, serviceDurationMins: $serviceDurationMins, numberOfTires2Swap: $numberOfTires2Swap, numberofTires2Store: $numberofTires2Store, detailingPackage: $detailingPackage, isCurrent: $isCurrent)';
   }
 
   @override
@@ -278,7 +297,10 @@ class _$_Service extends _Service {
                     .equals(other.numberofTires2Store, numberofTires2Store)) &&
             (identical(other.detailingPackage, detailingPackage) ||
                 const DeepCollectionEquality()
-                    .equals(other.detailingPackage, detailingPackage)));
+                    .equals(other.detailingPackage, detailingPackage)) &&
+            (identical(other.isCurrent, isCurrent) ||
+                const DeepCollectionEquality()
+                    .equals(other.isCurrent, isCurrent)));
   }
 
   @override
@@ -291,7 +313,8 @@ class _$_Service extends _Service {
       const DeepCollectionEquality().hash(serviceDurationMins) ^
       const DeepCollectionEquality().hash(numberOfTires2Swap) ^
       const DeepCollectionEquality().hash(numberofTires2Store) ^
-      const DeepCollectionEquality().hash(detailingPackage);
+      const DeepCollectionEquality().hash(detailingPackage) ^
+      const DeepCollectionEquality().hash(isCurrent);
 
   @JsonKey(ignore: true)
   @override
@@ -313,7 +336,8 @@ abstract class _Service extends Service {
       required double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
-      String? detailingPackage}) = _$_Service;
+      String? detailingPackage,
+      bool isCurrent}) = _$_Service;
   const _Service._() : super._();
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
@@ -335,6 +359,8 @@ abstract class _Service extends Service {
   int? get numberofTires2Store => throw _privateConstructorUsedError;
   @override
   String? get detailingPackage => throw _privateConstructorUsedError;
+  @override
+  bool get isCurrent => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ServiceCopyWith<_Service> get copyWith =>

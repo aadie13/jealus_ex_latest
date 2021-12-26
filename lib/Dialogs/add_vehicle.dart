@@ -26,8 +26,8 @@ class AddVehicleDialog extends HookWidget {
     TextEditingController vehicleYear = TextEditingController();
     TextEditingController engineSize = TextEditingController();
     TextEditingController tireSpec = TextEditingController();
-    return Dialog(
-      child: Padding(
+    return Scaffold(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -91,7 +91,7 @@ class AddVehicleDialog extends HookWidget {
                   )
                       : context
                       .read(vehicleControllerProvider)
-                      .addVehicle(                    vehicleMake: vehicleMake.text.trim(),
+                      .addVehicle(vehicleMake: vehicleMake.text.trim(),
                     vehicleModel: vehicleModel.text.trim(),
                     vehicleYear: vehicleYear.text.trim(),
                     engineSize: engineSize.text.trim(),
@@ -102,6 +102,7 @@ class AddVehicleDialog extends HookWidget {
                 child: Text(isUpdating ? 'Update' : 'Add'),
               ),
             ),
+            SizedBox(width: double.infinity,child: ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text('Cancel'),))
           ],
         ),
       ),

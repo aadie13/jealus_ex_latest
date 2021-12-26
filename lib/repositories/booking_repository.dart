@@ -56,25 +56,7 @@ class BookingRepository implements BaseBookingRepository{
       throw CustomException(message: e.message);
     }
   }
-
-  // @override
-  // Future<void> confirmVehicles({required String userId, required String bookingID}) async {//, required List<Vehicle> vehicles}) async {
-  //   try {
-  //     final docRef = await _read(firebaseFirestoreProvider)
-  //         .userBookedVehiclesRef(userId, bookingID);//get inside the current booking to add the vehicles into
-  //     final filteredVehiclesList = useProvider(filteredVehicleListProvider);
-  //     for (int i = 0 ; i < filteredVehiclesList.length ; i++) {
-  //       docRef.add(filteredVehiclesList[i].toDocument());
-  //     }
-  //     // vehicles.forEach((element) =>  {
-  //     //   if (element.isBooked){
-  //     //     docRef.add(element.toDocument())
-  //     //   }
-  //     // });
-  //   } on FirebaseException catch (e) {
-  //     throw CustomException(message: e.message);
-  //   }
-  // }
+  
   @override
   Future<void> updateBooking({required String userId, required Booking booking}) async{
     try {

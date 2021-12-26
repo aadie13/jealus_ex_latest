@@ -6,6 +6,8 @@ import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/vehicle_repository.dart';
 
+import '../general_providers.dart';
+
 enum VehicleListFilter {
   all,
   selected,
@@ -77,9 +79,9 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
 
   Future<void> addVehicle({required String nickName, required String vehicleMake,
     required String vehicleModel, required String vehicleYear,
-    required String engineSize, required String tireSpec}) async{
+    required String engineSize, required String tireSpec, bool isBooked = false}) async{
     try {
-      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName);
+      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
       final vehicleID = await _read(vehicleRepositoryProvider).createVehicle(userId: _userId!, vehicle: vehicle);
       state.whenData((vehicles) =>
       state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
@@ -88,6 +90,7 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
       _read(vehicleExceptionProvider).state = e;
     }
   }
+
 
   Future<void> updateVehicle({required Vehicle updatedVehicle}) async {
     try {

@@ -9,11 +9,11 @@ import 'profle_view.dart';
 import 'home_view.dart';
 
 class TabBarScreen extends HookWidget {
-  List<Widget> pageList = [HomeView(), HistoryView(), MessagesView(), ProfileView()];
-  int _currentIndex = 0;
+  List<Widget> _pageList = [HomeView(), HistoryView(), MessagesView(), ProfileView()];
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider.state);
+    final navigationIndex = useState(0);
     return Scaffold(
       appBar: AppBar(
         title: new Text('Mobile Mechanic',style: TextStyle(fontSize: 25.0),),
@@ -29,13 +29,11 @@ class TabBarScreen extends HookWidget {
 
           },):null,
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: pageList,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
+      backgroundColor: Colors.lightBlueAccent,
+      body: _pageList[navigationIndex.value],
+      bottomNavigationBar: new BottomNavigationBar(
+        onTap: (int index) => navigationIndex.value =index,
+        currentIndex: navigationIndex.value,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -66,10 +64,6 @@ class TabBarScreen extends HookWidget {
       ),
     );
   }
-  void onTabTapped(int index){
-      _currentIndex = index;
-  }
-
 }
 
 // class TabBarScreen extends StatefulWidget {

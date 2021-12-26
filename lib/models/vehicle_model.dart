@@ -21,6 +21,7 @@ abstract class Vehicle with _$Vehicle {
     @Default(false) bool isBooked,
   }) = _Vehicle;
 
+  factory Vehicle.empty() => Vehicle(nickName: '', vehicleMake: '', vehicleModel: '', vehicleYear: '', engineSize: '', tireSpec: '');
   factory Vehicle.fromJson(Map<String, dynamic> data) =>
       _$VehicleFromJson(data);
 

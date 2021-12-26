@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
+import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/screens/show_vehicles.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
@@ -23,12 +24,12 @@ class SelectVehicleDialog extends HookWidget {
   @override
   Widget build(BuildContext context) {
     //final textController = useTextEditingController(text: item.name);
+    context.read(authControllerProvider.state)!.reload();
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-
           children: <Widget>[
             const VehicleList(),
             SizedBox(height: 5.0,),
@@ -47,7 +48,7 @@ class SelectVehicleDialog extends HookWidget {
                       ? Navigator.of(context).pop()
                       : null;
                 },
-                child: Text(isAtLeastOneSelected ? 'Update' : 'Empty'),
+                child: Text(isAtLeastOneSelected ? 'Book' : 'Empty'),
               ),
             ),
           ],

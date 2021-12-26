@@ -27,6 +27,8 @@ class ConfirmBooking extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _height = MediaQuery.of(context).size.height;
+    var _width = MediaQuery.of(context).size.width;
     final List<Vehicle> _vehiclesForBooking = [];
     final bookedVehiclesList = useProvider(selectedVehicleListProvider);
     return Scaffold(
@@ -39,7 +41,11 @@ class ConfirmBooking extends HookWidget {
       //   child: const Icon(Icons.directions_car_sharp),
       // ),
       body: Container(
+        width: _width,
+        height: _height,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget> [
             Text(
                 servicesList[this.serviceIndex].serviceName
@@ -65,11 +71,21 @@ class ConfirmBooking extends HookWidget {
             Text(
               context.read(authControllerProvider).state!.uid.toString(),
             ),
-            ElevatedButton(child: const Icon(Icons.directions_car_sharp),
-                style: ElevatedButton.styleFrom(
-                  primary: context.read(selectedVehicleListProvider).length > 0 ? Colors.green : Colors.red,
-                ),
-                onPressed: () => SelectVehicleDialog.show(context),),
+            // ElevatedButton(onPressed: () => SelectVehicleDialog.show(context),
+            //     child: Text.rich(
+            //       TextSpan(style: TextStyle(
+            //         fontSize: 17,
+            //       ),
+            //         children: [
+            //           TextSpan(text: '+'),
+            //           WidgetSpan(child: const Icon(Icons.directions_car_sharp),)
+            //         ],
+            //     ),),),
+            // ElevatedButton(child: const Icon(Icons.directions_car_sharp),
+            //     style: ElevatedButton.styleFrom(
+            //       primary: context.read(selectedVehicleListProvider).length > 0 ? Colors.green : Colors.red,
+            //     ),
+            //     onPressed: () => SelectVehicleDialog.show(context),),
             SizedBox(height: 12.0,),
             RaisedButton(
                 child: Text("Confirm Booking"),

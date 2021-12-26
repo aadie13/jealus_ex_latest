@@ -21,6 +21,8 @@ abstract class Service implements _$Service {
     int? numberOfTires2Swap,
     int? numberofTires2Store,
     String? detailingPackage,
+    @Default(false) bool isCurrent,
+
   }) = _Service;
 
   factory Service.fromJson(Map<String, dynamic> data) =>

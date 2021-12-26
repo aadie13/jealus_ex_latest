@@ -16,6 +16,7 @@ _$_Service _$_$_ServiceFromJson(Map<String, dynamic> json) {
     numberOfTires2Swap: json['numberOfTires2Swap'] as int?,
     numberofTires2Store: json['numberofTires2Store'] as int?,
     detailingPackage: json['detailingPackage'] as String?,
+    isCurrent: json['isCurrent'] as bool? ?? false,
   );
 }
 
@@ -29,4 +30,5 @@ Map<String, dynamic> _$_$_ServiceToJson(_$_Service instance) =>
       'numberOfTires2Swap': instance.numberOfTires2Swap,
       'numberofTires2Store': instance.numberofTires2Store,
       'detailingPackage': instance.detailingPackage,
+      'isCurrent': instance.isCurrent,
     };
