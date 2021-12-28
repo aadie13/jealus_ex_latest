@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,12 +21,12 @@ class AddVehicleDialog extends HookWidget {
   bool get isUpdating => vehicle.id != null;
   @override
   Widget build(BuildContext context) {
-    TextEditingController vehicleNickName = TextEditingController();
-    TextEditingController vehicleMake = TextEditingController();
-    TextEditingController vehicleModel = TextEditingController();
-    TextEditingController vehicleYear = TextEditingController();
-    TextEditingController engineSize = TextEditingController();
-    TextEditingController tireSpec = TextEditingController();
+    final vehicleNickName = useTextEditingController(text: vehicle.nickName);
+    final vehicleMake = useTextEditingController(text: vehicle.vehicleMake);
+    final vehicleModel = useTextEditingController(text: vehicle.vehicleModel);
+    final vehicleYear = useTextEditingController(text: vehicle.vehicleYear);
+    final engineSize = useTextEditingController(text: vehicle.engineSize);
+    final tireSpec = useTextEditingController(text: vehicle.tireSpec);
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -88,7 +89,11 @@ class AddVehicleDialog extends HookWidget {
                       tireSpec: tireSpec.text.trim(),
                       isBooked: vehicle.isBooked,
                     ),
-                  )
+                  ).then((value) => {
+                  Fluttertoast.showToast(msg: "Vehicle Added!"),
+                      print("Vehicle Added!"),
+                  })
+
                       : context
                       .read(vehicleControllerProvider)
                       .addVehicle(vehicleMake: vehicleMake.text.trim(),
@@ -98,6 +103,8 @@ class AddVehicleDialog extends HookWidget {
                     tireSpec: tireSpec.text.trim(),
                     nickName: vehicleNickName.text.trim(),);
                   Navigator.of(context).pop();
+                  Fluttertoast.showToast(msg: "Vehicle Added!");
+                  print("Vehicle Added!");
                 },
                 child: Text(isUpdating ? 'Update' : 'Add'),
               ),

@@ -32,6 +32,21 @@ final selectedVehicleListProvider = Provider<List<Vehicle>>((ref) {
       orElse: () => []);
 });
 
+final vehicleListProvider = Provider<List<Vehicle>>((ref) {
+  final vehicleListFilterState = ref.watch(vehicleListFilterProvider).state;
+  final vehicleListState = ref.watch(vehicleControllerProvider.state);
+  return vehicleListState.maybeWhen(
+      data: (vehicles) {
+        return vehicles.toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
 final vehicleExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 final vehicleControllerProvider = StateNotifierProvider<VehicleController>(
