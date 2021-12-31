@@ -13,6 +13,7 @@ _$_Booking _$_$_BookingFromJson(Map<String, dynamic> json) {
     startTimeHrs: json['startTimeHrs'] as int,
     startTimeMins: json['startTimeMins'] as int,
     isCompleted: json['isCompleted'] as bool? ?? false,
+    isAccepted: json['isAccepted'] as bool? ?? false,
   );
 }
 
@@ -23,4 +24,5 @@ Map<String, dynamic> _$_$_BookingToJson(_$_Booking instance) =>
       'startTimeHrs': instance.startTimeHrs,
       'startTimeMins': instance.startTimeMins,
       'isCompleted': instance.isCompleted,
+      'isAccepted': instance.isAccepted,
     };

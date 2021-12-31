@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:jealus_ex/repositories/auth_repository.dart';
+import 'package:jealus_ex/screens/add_address_to_profile.dart';
 import 'package:jealus_ex/screens/add_vehicles_to_profile.dart';
 
 //*******************************************************//
@@ -43,6 +44,7 @@ class MyApp extends HookWidget {
           '/logIn': (BuildContext context) => LogInView(),
           '/createUserProfile': (BuildContext context) => CreateUserProfile(),
           '/addVehiclesToProfile': (BuildContext context) => ShowVehiclesMain(),
+          '/addAddressToProfile': (BuildContext context) => ShowAddressesMain(),
         }
     );
   }

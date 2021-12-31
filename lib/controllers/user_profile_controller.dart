@@ -38,10 +38,9 @@ class UserController extends StateNotifier<AsyncValue<List<UserProfile>>> {
   }
 
   Future<void> addUserProfile({required String name,
-    required String phone, required String residenceType,
-    required String address}) async{
+    required String phone}) async{
     try {
-      final userProfile = UserProfile(name: name, phone: phone, residenceType: residenceType, address: address);
+      final userProfile = UserProfile(name: name, phone: phone, ratings: 0.0);
       final userProfileID = await _read(usersRepositoryProvider).createUser(userId: _userId!, user: userProfile);
       state.whenData((userProfiles) =>
       state = AsyncValue.data(userProfiles..add(userProfile.copyWith(id: userProfileID)))

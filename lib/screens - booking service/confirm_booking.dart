@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jealus_ex/Dialogs/select_vehicle.dart';
+import 'package:jealus_ex/controllers/address_controller.dart';
 import 'package:jealus_ex/controllers/booking_controller.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 import 'package:jealus_ex/models/service_model.dart';
@@ -111,7 +112,7 @@ class ConfirmBooking extends HookWidget {
                       detailingPackage: this.detailingPackage, numberofTires2Store: this.numberofTires2Store, numberOfTires2Swap: this.numberOfTires2Swap);
                   var user = context.read(authControllerProvider.state);
                   if (user != null){
-                    if (context.read(selectedVehicleListProvider).length > 0){
+                    if (context.read(selectedVehicleListProvider).length > 0 && context.read(selectedAddressListProvider).length == 1){
                       //TODO: change the above. All the fields of a service cannot be populated for oil change and so on....
                       await context.read(bookingsControllerProvider).addBooking(
                         startDate: selectedDate,
@@ -123,7 +124,7 @@ class ConfirmBooking extends HookWidget {
                       //MaterialPageRoute(builder: (context) => ConfirmBooking(typeSpecific: widget.typeSpecific, serviceIndex: widget.serviceIndex, selectedDate: selectedDate, startTime: selectedTime, detailingPackage: widget.detailingPackage, numberOfTires2Swap: widget.numberOfTires2Swap, numberofTires2Store: widget.numberofTires2Store));
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     } else {
-                      SelectVehicleDialog.show(context);
+                      Fluttertoast.showToast(msg: "Address and/or Vehicles selection error");
                     }
                   } else{
                     Fluttertoast.showToast(msg: "User ID not found");

@@ -11,8 +11,7 @@ _$_UserProfile _$_$_UserProfileFromJson(Map<String, dynamic> json) {
     id: json['id'] as String?,
     name: json['name'] as String,
     phone: json['phone'] as String,
-    residenceType: json['residenceType'] as String,
-    address: json['address'] as String,
+    ratings: (json['ratings'] as num).toDouble(),
     isMechanic: json['isMechanic'] as bool? ?? false,
   );
 }
@@ -22,7 +21,6 @@ Map<String, dynamic> _$_$_UserProfileToJson(_$_UserProfile instance) =>
       'id': instance.id,
       'name': instance.name,
       'phone': instance.phone,
-      'residenceType': instance.residenceType,
-      'address': instance.address,
+      'ratings': instance.ratings,
       'isMechanic': instance.isMechanic,
     };

@@ -65,21 +65,41 @@ class BookingTile extends HookWidget {
         color: Colors.red,
       ),
       child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.lime, width: 5),
+          borderRadius: BorderRadius.circular(2),
+        ),
         child: ListTile(
           key: ValueKey(item.id),
-          title: Text(
-            item.startDate.toString() + item.startTimeHrs.toString(),
-            style: TextStyle(fontSize: 18),
+          title: new Row(
+            children: [
+              Text(
+                'Date (yyyy-mm-dd): ',
+                style: TextStyle(fontSize: 18),
+              ),
+              Spacer(),
+              Text(
+                item.startDate.year.toString() + '-' +  item.startDate.month.toString() + '-' + item.startDate.day.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
           ),
-
-          // trailing: Checkbox(
-          //   value: item.obtained,
-          //   onChanged: (val) => context
-          //       .read(itemListControllerProvider)
-          //       .updateItem(
-          //       updatedItem:
-          //       item.copyWith(obtained: !item.obtained)),
-          // ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: new Row(
+              children: [
+                Text(
+                  'Time (hrs:min)  ' ,
+                  style: TextStyle(fontSize: 18),
+                ),
+                Spacer(),
+                Text(
+                  item.startTimeHrs.toString() + ':' +  item.startTimeMins.toString() ,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
           //onTap: () => AddItemDialog.show(context, item),//TODO:on Tap edit the pendingbooking
           onLongPress: () => context
               .read(bookingsControllerProvider)

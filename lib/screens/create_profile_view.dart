@@ -18,8 +18,6 @@ class CreateUserProfile extends HookWidget {
   TextEditingController givenNameTextEditingController =
   TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
-  TextEditingController residenceType = TextEditingController();
-  TextEditingController address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,38 +79,6 @@ class CreateUserProfile extends HookWidget {
                     style: TextStyle(fontSize: 14.0),
                   ),
                   SizedBox(
-                    height: 1.0,
-                  ),
-                  TextField(
-                    controller: residenceType,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText:
-                      "Enter Condo/House/Parkng Lot", //TODO: make this into a dropdown list to choose from
-                      labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10.0,
-                      ),
-                    ),
-                    style: TextStyle(fontSize: 14.0),
-                  ),
-                  SizedBox(
-                    height: 1.0,
-                  ),
-                  TextField(
-                    controller: address,
-                    keyboardType: TextInputType
-                        .text, //TODO: convert this into Address model type
-                    decoration: InputDecoration(
-                      labelText: "ex: 395 Cook Rd, North York, ON M3J 1P3",
-                      labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10.0,
-                      ),
-                    ),
-                    style: TextStyle(fontSize: 14.0),
-                  ),
-                  SizedBox(
                     height: 10.0,
                   ),
                   RaisedButton(
@@ -137,14 +103,6 @@ class CreateUserProfile extends HookWidget {
                             msg: "name must be at least 3 characters");
                       } else if (phoneTextEditingController.text.isEmpty) {
                         Fluttertoast.showToast(msg: "Enter Phone number");
-                      } else if (residenceType.text.isEmpty) {
-                        Fluttertoast.showToast(msg: "Enter REsidence Type");
-                        // }else if (residenceType.text != "Condo" || residenceType.text != "House" ||  residenceType.text !="Parking Lot") {
-                        //   Fluttertoast.showToast(msg:"Location must be either Condo, House or a Parking Lot"); //TODO: remove this after drop down is implemented
-                      } else if (address.text.isEmpty) {
-                        Fluttertoast.showToast(
-                            msg:
-                            "Enter full Adrress"); // TODO: modify this error check to make sure right format address is input
                       } else {
                         var user = context.read(authControllerProvider.state);
                         if (user != null){
@@ -152,9 +110,7 @@ class CreateUserProfile extends HookWidget {
                               .read(userControllerProvider)
                               .addUserProfile(
                               name: givenNameTextEditingController.text,
-                              phone: phoneTextEditingController.text,
-                              residenceType: residenceType.text,
-                              address: address.text);
+                              phone: phoneTextEditingController.text,);
                           Fluttertoast.showToast(msg: "Profile created!");
                           print("User File created");
 

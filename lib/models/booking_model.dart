@@ -25,6 +25,7 @@ abstract class Booking implements _$Booking {
     //TODO: add service to the booking
     //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
     @Default(false) bool isCompleted, //is the job done? If so what are the reviews? TODO: add review setup in the app
+    @Default(false) bool isAccepted, //has 
   }) = _Booking;
 
   factory Booking.fromJson(Map<String, dynamic> data) =>_$BookingFromJson(data);

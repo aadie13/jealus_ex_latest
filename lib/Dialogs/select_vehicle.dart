@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
-import 'package:jealus_ex/screens/vehicle_list.dart';
+import 'package:jealus_ex/screens/vehicle_list_to_select.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 
 class SelectVehicleDialog extends HookWidget {
@@ -31,7 +31,7 @@ class SelectVehicleDialog extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const VehicleList(),
+            //const VehicleListToSelect(),
             SizedBox(height: 5.0,),
             Text(useProvider(selectedVehicleListProvider).length.toString()),
             SizedBox(height: 5.0,),

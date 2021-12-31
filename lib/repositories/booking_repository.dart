@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jealus_ex/controllers/address_controller.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jealus_ex/models/user_model.dart';
@@ -50,6 +51,12 @@ class BookingRepository implements BaseBookingRepository{
               isBooked: !selectedVehiclesList[i].isBooked,
           ),
         );
+      }
+      final ARef = await _read(firebaseFirestoreProvider)
+          .userBookedAddressRef(userId, docRef.id);//get inside the current booking to add the vehicles into
+      final selectedAddressList = await _read(selectedAddressListProvider);
+      for (int i = 0 ; i < selectedAddressList.length ; i++) {
+        ARef.add(selectedAddressList[i].toDocument());
       }
       return docRef.id;
     } on FirebaseException catch (e) {

@@ -24,15 +24,13 @@ class _$UserProfileTearOff {
       {String? id,
       required String name,
       required String phone,
-      required String residenceType,
-      required String address,
+      required double ratings,
       bool isMechanic = false}) {
     return _UserProfile(
       id: id,
       name: name,
       phone: phone,
-      residenceType: residenceType,
-      address: address,
+      ratings: ratings,
       isMechanic: isMechanic,
     );
   }
@@ -50,8 +48,7 @@ mixin _$UserProfile {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
-  String get residenceType => throw _privateConstructorUsedError;
-  String get address =>
+  double get ratings =>
       throw _privateConstructorUsedError; //required List<Vehicle> vehicles,
 //TODO: implement address to be able to track location
 //required List<Booking> booking,
@@ -69,12 +66,7 @@ abstract class $UserProfileCopyWith<$Res> {
           UserProfile value, $Res Function(UserProfile) then) =
       _$UserProfileCopyWithImpl<$Res>;
   $Res call(
-      {String? id,
-      String name,
-      String phone,
-      String residenceType,
-      String address,
-      bool isMechanic});
+      {String? id, String name, String phone, double ratings, bool isMechanic});
 }
 
 /// @nodoc
@@ -90,8 +82,7 @@ class _$UserProfileCopyWithImpl<$Res> implements $UserProfileCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? phone = freezed,
-    Object? residenceType = freezed,
-    Object? address = freezed,
+    Object? ratings = freezed,
     Object? isMechanic = freezed,
   }) {
     return _then(_value.copyWith(
@@ -107,14 +98,10 @@ class _$UserProfileCopyWithImpl<$Res> implements $UserProfileCopyWith<$Res> {
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
-      residenceType: residenceType == freezed
-          ? _value.residenceType
-          : residenceType // ignore: cast_nullable_to_non_nullable
-              as String,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
+      ratings: ratings == freezed
+          ? _value.ratings
+          : ratings // ignore: cast_nullable_to_non_nullable
+              as double,
       isMechanic: isMechanic == freezed
           ? _value.isMechanic
           : isMechanic // ignore: cast_nullable_to_non_nullable
@@ -131,12 +118,7 @@ abstract class _$UserProfileCopyWith<$Res>
       __$UserProfileCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? id,
-      String name,
-      String phone,
-      String residenceType,
-      String address,
-      bool isMechanic});
+      {String? id, String name, String phone, double ratings, bool isMechanic});
 }
 
 /// @nodoc
@@ -154,8 +136,7 @@ class __$UserProfileCopyWithImpl<$Res> extends _$UserProfileCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? phone = freezed,
-    Object? residenceType = freezed,
-    Object? address = freezed,
+    Object? ratings = freezed,
     Object? isMechanic = freezed,
   }) {
     return _then(_UserProfile(
@@ -171,14 +152,10 @@ class __$UserProfileCopyWithImpl<$Res> extends _$UserProfileCopyWithImpl<$Res>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
-      residenceType: residenceType == freezed
-          ? _value.residenceType
-          : residenceType // ignore: cast_nullable_to_non_nullable
-              as String,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
+      ratings: ratings == freezed
+          ? _value.ratings
+          : ratings // ignore: cast_nullable_to_non_nullable
+              as double,
       isMechanic: isMechanic == freezed
           ? _value.isMechanic
           : isMechanic // ignore: cast_nullable_to_non_nullable
@@ -194,8 +171,7 @@ class _$_UserProfile extends _UserProfile {
       {this.id,
       required this.name,
       required this.phone,
-      required this.residenceType,
-      required this.address,
+      required this.ratings,
       this.isMechanic = false})
       : super._();
 
@@ -209,9 +185,7 @@ class _$_UserProfile extends _UserProfile {
   @override
   final String phone;
   @override
-  final String residenceType;
-  @override
-  final String address;
+  final double ratings;
   @JsonKey(defaultValue: false)
   @override //required List<Vehicle> vehicles,
 //TODO: implement address to be able to track location
@@ -220,7 +194,7 @@ class _$_UserProfile extends _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, name: $name, phone: $phone, residenceType: $residenceType, address: $address, isMechanic: $isMechanic)';
+    return 'UserProfile(id: $id, name: $name, phone: $phone, ratings: $ratings, isMechanic: $isMechanic)';
   }
 
   @override
@@ -233,12 +207,9 @@ class _$_UserProfile extends _UserProfile {
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.phone, phone) ||
                 const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.residenceType, residenceType) ||
+            (identical(other.ratings, ratings) ||
                 const DeepCollectionEquality()
-                    .equals(other.residenceType, residenceType)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
+                    .equals(other.ratings, ratings)) &&
             (identical(other.isMechanic, isMechanic) ||
                 const DeepCollectionEquality()
                     .equals(other.isMechanic, isMechanic)));
@@ -250,8 +221,7 @@ class _$_UserProfile extends _UserProfile {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(residenceType) ^
-      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(ratings) ^
       const DeepCollectionEquality().hash(isMechanic);
 
   @JsonKey(ignore: true)
@@ -270,8 +240,7 @@ abstract class _UserProfile extends UserProfile {
       {String? id,
       required String name,
       required String phone,
-      required String residenceType,
-      required String address,
+      required double ratings,
       bool isMechanic}) = _$_UserProfile;
   const _UserProfile._() : super._();
 
@@ -285,9 +254,7 @@ abstract class _UserProfile extends UserProfile {
   @override
   String get phone => throw _privateConstructorUsedError;
   @override
-  String get residenceType => throw _privateConstructorUsedError;
-  @override
-  String get address => throw _privateConstructorUsedError;
+  double get ratings => throw _privateConstructorUsedError;
   @override //required List<Vehicle> vehicles,
 //TODO: implement address to be able to track location
 //required List<Booking> booking,

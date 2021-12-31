@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //*******************************//
 import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/controllers/user_profile_controller.dart';
-import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/repositories/auth_repository.dart';
 import 'package:jealus_ex/general_providers.dart';
 
@@ -24,34 +23,35 @@ class Register extends HookWidget {
       ),
       body: EmailRegisterForm(),
     );
-    // floatingActionButton: authControllerState!.uid != null ? FloatingActionButton(
-    //   onPressed: () => CreateUserProfile.show(context),
-    //   child: Text("Add to Database"),
-    // ): null,
-    //);
   }
-
 }
 
 Widget buildLoading() => Stack(
-  fit: StackFit.expand,
-  children: <Widget> [
-    Center(child: CircularProgressIndicator(),)
-  ],
-);
-
+      fit: StackFit.expand,
+      children: <Widget>[
+        Center(
+          child: CircularProgressIndicator(),
+        )
+      ],
+    );
 
 class EmailRegisterForm extends HookWidget {
   //const emailRegisterForm({Key? key}) : super(key: key);
-  TextEditingController GivenNameTextEditingController =
-      TextEditingController();
+  TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     //final userControllerState = useProvider(authControllerProvider).state;
     return Scaffold(
+        appBar: AppBar(
+          title: new Text(
+            'Create your profile',
+            style: TextStyle(fontSize: 25.0),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
@@ -78,6 +78,18 @@ class EmailRegisterForm extends HookWidget {
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   children: [
+                    TextField(
+                      controller: nameTextEditingController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: "Enter Name",
+                        labelStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10.0,
+                        ),
+                      ),
+                      style: TextStyle(fontSize: 14.0),
+                    ),
                     SizedBox(
                       height: 1.0,
                     ),
@@ -112,6 +124,18 @@ class EmailRegisterForm extends HookWidget {
                       ),
                       style: TextStyle(fontSize: 14.0),
                     ),
+                    TextField(
+                      controller: phoneTextEditingController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        labelText: "Phone",
+                        labelStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10.0,
+                        ),
+                      ),
+                      style: TextStyle(fontSize: 14.0),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -131,7 +155,7 @@ class EmailRegisterForm extends HookWidget {
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(24.0),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (!emailTextEditingController.text.contains("@")) {
                           Fluttertoast.showToast(msg: "Invalid email");
                         } else if (passwordTextEditingController.text.length <
@@ -139,24 +163,34 @@ class EmailRegisterForm extends HookWidget {
                           Fluttertoast.showToast(
                               msg:
                                   "Password must be atleast 7 characters long");
+                        } else if (nameTextEditingController.text.length < 3) {
+                          Fluttertoast.showToast(
+                              msg: "name must be at least 3 characters");
+                        } else if (phoneTextEditingController.text.isEmpty) {
+                          Fluttertoast.showToast(msg: "Enter Phone number");
                         } else {
-                          context
+                          await context
                               .read(authRepositoryProvider)
                               .registerNewUser(emailTextEditingController.text,
-                                  passwordTextEditingController.text).then((value) {
-                                    var user = context.read(authControllerProvider.state);
-                                    if (user != null) {
-                                      print(user);
-                                      print(user.uid);
-                                      print("Account Created");
-                                      Fluttertoast.showToast(msg: "Account created!");
-                                      Navigator.of(context).pushReplacementNamed('/createUserProfile');
-                                    }
-                                  }).catchError((error) {
-                                    Fluttertoast.showToast(msg: error.toString());
-                                    print(error.toString());
-                                    print("Profile not created");
-                                  });
+                              passwordTextEditingController.text);
+                          var user = context.read(authControllerProvider.state);
+                          if(user != null){
+                            await context
+                                .read(userControllerProvider)
+                                .addUserProfile(
+                              name: nameTextEditingController.text,
+                              phone: phoneTextEditingController.text,
+                            );
+                            print(user);
+                            print(user.uid);
+                            print("Account Created");
+                            Fluttertoast.showToast(msg: "Account created!");
+                            Navigator.of(context)
+                                .pushReplacementNamed('/addVehiclesToProfile');
+                          } else {
+                            print("Account Not Created");
+                            Fluttertoast.showToast(msg: "Account Not created! User == null");
+                          }
                         }
                       },
                     ),
@@ -168,4 +202,3 @@ class EmailRegisterForm extends HookWidget {
         ));
   }
 }
-

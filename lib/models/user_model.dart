@@ -13,8 +13,7 @@ abstract class UserProfile implements _$UserProfile {
     String? id,
     required String name,
     required String phone,
-    required String residenceType,
-    required String address,
+    required double ratings,
     //required List<Vehicle> vehicles,
     //TODO: implement address to be able to track location
     //required List<Booking> booking,

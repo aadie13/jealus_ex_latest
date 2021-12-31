@@ -25,13 +25,15 @@ class _$BookingTearOff {
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
-      bool isCompleted = false}) {
+      bool isCompleted = false,
+      bool isAccepted = false}) {
     return _Booking(
       id: id,
       startDate: startDate,
       startTimeHrs: startTimeHrs,
       startTimeMins: startTimeMins,
       isCompleted: isCompleted,
+      isAccepted: isAccepted,
     );
   }
 
@@ -55,7 +57,9 @@ mixin _$Booking {
       throw _privateConstructorUsedError; //required Service service,//TODO: NOTE - this app allows one service per booking
 //TODO: add service to the booking
 //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
-  bool get isCompleted => throw _privateConstructorUsedError;
+  bool get isCompleted =>
+      throw _privateConstructorUsedError; //is the job done? If so what are the reviews? TODO: add review setup in the app
+  bool get isAccepted => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -71,7 +75,8 @@ abstract class $BookingCopyWith<$Res> {
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
-      bool isCompleted});
+      bool isCompleted,
+      bool isAccepted});
 }
 
 /// @nodoc
@@ -89,6 +94,7 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
     Object? isCompleted = freezed,
+    Object? isAccepted = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -111,6 +117,10 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAccepted: isAccepted == freezed
+          ? _value.isAccepted
+          : isAccepted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -125,7 +135,8 @@ abstract class _$BookingCopyWith<$Res> implements $BookingCopyWith<$Res> {
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
-      bool isCompleted});
+      bool isCompleted,
+      bool isAccepted});
 }
 
 /// @nodoc
@@ -144,6 +155,7 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
     Object? isCompleted = freezed,
+    Object? isAccepted = freezed,
   }) {
     return _then(_Booking(
       id: id == freezed
@@ -166,6 +178,10 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAccepted: isAccepted == freezed
+          ? _value.isAccepted
+          : isAccepted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -178,7 +194,8 @@ class _$_Booking extends _Booking {
       required this.startDate,
       required this.startTimeHrs,
       required this.startTimeMins,
-      this.isCompleted = false})
+      this.isCompleted = false,
+      this.isAccepted = false})
       : super._();
 
   factory _$_Booking.fromJson(Map<String, dynamic> json) =>
@@ -199,10 +216,13 @@ class _$_Booking extends _Booking {
 //TODO: add service to the booking
 //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
   final bool isCompleted;
+  @JsonKey(defaultValue: false)
+  @override //is the job done? If so what are the reviews? TODO: add review setup in the app
+  final bool isAccepted;
 
   @override
   String toString() {
-    return 'Booking(id: $id, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted)';
+    return 'Booking(id: $id, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted, isAccepted: $isAccepted)';
   }
 
   @override
@@ -222,7 +242,10 @@ class _$_Booking extends _Booking {
                     .equals(other.startTimeMins, startTimeMins)) &&
             (identical(other.isCompleted, isCompleted) ||
                 const DeepCollectionEquality()
-                    .equals(other.isCompleted, isCompleted)));
+                    .equals(other.isCompleted, isCompleted)) &&
+            (identical(other.isAccepted, isAccepted) ||
+                const DeepCollectionEquality()
+                    .equals(other.isAccepted, isAccepted)));
   }
 
   @override
@@ -232,7 +255,8 @@ class _$_Booking extends _Booking {
       const DeepCollectionEquality().hash(startDate) ^
       const DeepCollectionEquality().hash(startTimeHrs) ^
       const DeepCollectionEquality().hash(startTimeMins) ^
-      const DeepCollectionEquality().hash(isCompleted);
+      const DeepCollectionEquality().hash(isCompleted) ^
+      const DeepCollectionEquality().hash(isAccepted);
 
   @JsonKey(ignore: true)
   @override
@@ -251,7 +275,8 @@ abstract class _Booking extends Booking {
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
-      bool isCompleted}) = _$_Booking;
+      bool isCompleted,
+      bool isAccepted}) = _$_Booking;
   const _Booking._() : super._();
 
   factory _Booking.fromJson(Map<String, dynamic> json) = _$_Booking.fromJson;
@@ -270,6 +295,8 @@ abstract class _Booking extends Booking {
 //TODO: add service to the booking
 //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
   bool get isCompleted => throw _privateConstructorUsedError;
+  @override //is the job done? If so what are the reviews? TODO: add review setup in the app
+  bool get isAccepted => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$BookingCopyWith<_Booking> get copyWith =>

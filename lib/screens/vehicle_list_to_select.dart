@@ -10,8 +10,9 @@ import '../custom_exception.dart';
 final currentVehicle =
     ScopedProvider<Vehicle>((_) => throw UnimplementedError());
 
-class VehicleList extends HookWidget {
-  const VehicleList({Key? key}) : super(key: key);
+class VehicleListToSelect extends HookWidget {
+  const VehicleListToSelect({Key? key}) : super(key: key);
+  //AsyncValue<List<Vehicle>> vehicleListState = useProvider(vehicleControllerProvider.state);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class VehicleList extends HookWidget {
               },
             ),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => VehicleListError(
+      error: (error, _) => VehicleListToSelectError(
         message:
             error is CustomException ? error.message! : 'Something went wrong!',
       ),
@@ -67,9 +68,9 @@ class VehicleTileToSelectForBooking extends HookWidget {
   }
 }
 
-class VehicleListError extends StatelessWidget {
+class VehicleListToSelectError extends StatelessWidget {
   final String message;
-  const VehicleListError({
+  const VehicleListToSelectError({
     Key? key,
     required this.message,
   }) : super(key: key);
