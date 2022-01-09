@@ -36,7 +36,6 @@ class SelectVehiclesToBook extends HookWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: SizedBox(
@@ -47,9 +46,11 @@ class SelectVehiclesToBook extends HookWidget {
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        decoration: BoxDecoration(border: Border.all(color: Colors.blue, width: 1), ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 1),
+                        ),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:10),
+                          padding: const EdgeInsets.only(top: 10),
                           child: const VehicleListToSelect(),
                         ),
                       ),
@@ -58,7 +59,8 @@ class SelectVehiclesToBook extends HookWidget {
                         left: 30,
                         top: -10,
                         child: Container(
-                          padding: EdgeInsets.only(bottom: 0,top: 5, left: 10, right: 10),
+                          padding: EdgeInsets.only(
+                              bottom: 0, top: 5, left: 10, right: 10),
                           color: Colors.white,
                           child: Text(
                             'Select All Vehicles to Service',
@@ -88,34 +90,39 @@ class SelectVehiclesToBook extends HookWidget {
                       //   ),),)
                     ],
                   ),
-                ),),
+                ),
+              ),
             ),
             SizedBox(
               height: 50,
               child: new Row(
                 children: [
                   Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      children: [
-                        TextSpan(text: '+'),
-                        WidgetSpan(
-                          child: const Icon(Icons.directions_car_sharp),
-
+                  ElevatedButton(
+                    onPressed: () =>
+                        AddVehicleDialog.show(context, Vehicle.empty()),
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontSize: 17,
                         ),
-                      ],
+                        children: [
+                          TextSpan(text: '+'),
+                          WidgetSpan(
+                            child: const Icon(Icons.directions_car_sharp),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10,)
+                  SizedBox(
+                    width: 10,
+                  )
                 ],
               ),
             ),
-
             Padding(
-              padding: const EdgeInsets.only(top:30.0),
+              padding: const EdgeInsets.only(top: 30.0),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -128,25 +135,28 @@ class SelectVehiclesToBook extends HookWidget {
                   onPressed: () {
                     context.read(selectedVehicleListProvider).length > 0
                         ? Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SelectAddressToBook(
-                            typeSpecific: typeSpecific,
-                            serviceIndex: serviceIndex,
-                            detailingPackage: detailingPackage,
-                            numberOfTires2Swap: numberOfTires2Swap,
-                            numberofTires2Store: numberofTires2Store,
-                          )),
-                    )
-                        : Fluttertoast.showToast(msg: "Select At least 1 vehicle");
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SelectAddressToBook(
+                                      typeSpecific: typeSpecific,
+                                      serviceIndex: serviceIndex,
+                                      detailingPackage: detailingPackage,
+                                      numberOfTires2Swap: numberOfTires2Swap,
+                                      numberofTires2Store: numberofTires2Store,
+                                    )),
+                          )
+                        : Fluttertoast.showToast(
+                            msg: "Select At least 1 vehicle");
                   },
                   child:
-                  Text(isAtLeastOneSelected ? 'Proceed' : 'Select Vehicle'),
+                      Text(isAtLeastOneSelected ? 'Proceed' : 'Select Vehicle'),
                 ),
               ),
             ),
-
-
+            Text(
+              'You must select at least one vehicle to continue',
+              style: TextStyle(fontSize: 8),
+            ),
           ],
         ),
       ),

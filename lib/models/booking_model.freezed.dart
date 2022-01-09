@@ -22,6 +22,8 @@ class _$BookingTearOff {
 
   _Booking call(
       {String? id,
+      required String userID,
+      required String mechanicID,
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
@@ -29,6 +31,8 @@ class _$BookingTearOff {
       bool isAccepted = false}) {
     return _Booking(
       id: id,
+      userID: userID,
+      mechanicID: mechanicID,
       startDate: startDate,
       startTimeHrs: startTimeHrs,
       startTimeMins: startTimeMins,
@@ -51,6 +55,8 @@ mixin _$Booking {
       throw _privateConstructorUsedError; //should be the user id of the customer
 //required UserProfile serviceProvider, //should be the mechanic user
 //TODO: add service provider to the booking
+  String get userID => throw _privateConstructorUsedError;
+  String get mechanicID => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   int get startTimeHrs => throw _privateConstructorUsedError;
   int get startTimeMins =>
@@ -72,6 +78,8 @@ abstract class $BookingCopyWith<$Res> {
       _$BookingCopyWithImpl<$Res>;
   $Res call(
       {String? id,
+      String userID,
+      String mechanicID,
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
@@ -90,6 +98,8 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? userID = freezed,
+    Object? mechanicID = freezed,
     Object? startDate = freezed,
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
@@ -101,6 +111,14 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      userID: userID == freezed
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      mechanicID: mechanicID == freezed
+          ? _value.mechanicID
+          : mechanicID // ignore: cast_nullable_to_non_nullable
+              as String,
       startDate: startDate == freezed
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -132,6 +150,8 @@ abstract class _$BookingCopyWith<$Res> implements $BookingCopyWith<$Res> {
   @override
   $Res call(
       {String? id,
+      String userID,
+      String mechanicID,
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
@@ -151,6 +171,8 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? userID = freezed,
+    Object? mechanicID = freezed,
     Object? startDate = freezed,
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
@@ -162,6 +184,14 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      userID: userID == freezed
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      mechanicID: mechanicID == freezed
+          ? _value.mechanicID
+          : mechanicID // ignore: cast_nullable_to_non_nullable
+              as String,
       startDate: startDate == freezed
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -191,6 +221,8 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
 class _$_Booking extends _Booking {
   const _$_Booking(
       {this.id,
+      required this.userID,
+      required this.mechanicID,
       required this.startDate,
       required this.startTimeHrs,
       required this.startTimeMins,
@@ -206,6 +238,10 @@ class _$_Booking extends _Booking {
   @override //should be the user id of the customer
 //required UserProfile serviceProvider, //should be the mechanic user
 //TODO: add service provider to the booking
+  final String userID;
+  @override
+  final String mechanicID;
+  @override
   final DateTime startDate;
   @override
   final int startTimeHrs;
@@ -222,7 +258,7 @@ class _$_Booking extends _Booking {
 
   @override
   String toString() {
-    return 'Booking(id: $id, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted, isAccepted: $isAccepted)';
+    return 'Booking(id: $id, userID: $userID, mechanicID: $mechanicID, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted, isAccepted: $isAccepted)';
   }
 
   @override
@@ -231,6 +267,11 @@ class _$_Booking extends _Booking {
         (other is _Booking &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.userID, userID) ||
+                const DeepCollectionEquality().equals(other.userID, userID)) &&
+            (identical(other.mechanicID, mechanicID) ||
+                const DeepCollectionEquality()
+                    .equals(other.mechanicID, mechanicID)) &&
             (identical(other.startDate, startDate) ||
                 const DeepCollectionEquality()
                     .equals(other.startDate, startDate)) &&
@@ -252,6 +293,8 @@ class _$_Booking extends _Booking {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(userID) ^
+      const DeepCollectionEquality().hash(mechanicID) ^
       const DeepCollectionEquality().hash(startDate) ^
       const DeepCollectionEquality().hash(startTimeHrs) ^
       const DeepCollectionEquality().hash(startTimeMins) ^
@@ -272,6 +315,8 @@ class _$_Booking extends _Booking {
 abstract class _Booking extends Booking {
   const factory _Booking(
       {String? id,
+      required String userID,
+      required String mechanicID,
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
@@ -286,6 +331,10 @@ abstract class _Booking extends Booking {
   @override //should be the user id of the customer
 //required UserProfile serviceProvider, //should be the mechanic user
 //TODO: add service provider to the booking
+  String get userID => throw _privateConstructorUsedError;
+  @override
+  String get mechanicID => throw _privateConstructorUsedError;
+  @override
   DateTime get startDate => throw _privateConstructorUsedError;
   @override
   int get startTimeHrs => throw _privateConstructorUsedError;

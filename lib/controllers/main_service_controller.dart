@@ -3,7 +3,41 @@ import 'package:jealus_ex/models/service_model.dart';
 import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
-import 'package:jealus_ex/repositories/service_repository.dart';
+import 'package:jealus_ex/repositories/main_service_repository.dart';
+
+enum ServiceListFilter {
+  all,
+  selected,
+}
+
+final serviceListFilterProvider =
+StateProvider<ServiceListFilter>((_) => ServiceListFilter.all);
+
+final selectedServiceListProvider = Provider<List<Service>>((ref) {
+  // final addressListFilterState = ref.watch(vehicleListFilterProvider).state;
+  final serviceListState = ref.watch(serviceControllerProvider.state);
+  return serviceListState.maybeWhen(
+      data: (services) {
+        return services.where((service) => service.isSelected).toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
+
+final serviceListProvider = Provider<List<Service>>((ref) {
+  //final addressListFilterState = ref.watch(addressListFilterProvider).state;
+  final serviceListState = ref.watch(serviceControllerProvider.state);
+  return serviceListState.maybeWhen(
+      data: (services) {
+        return services.toList();
+      },
+      orElse: () => []);
+});
 
 final serviceExceptionProvider = StateProvider<CustomException?>((_) => null);
 

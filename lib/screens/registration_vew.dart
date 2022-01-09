@@ -37,6 +37,8 @@ Widget buildLoading() => Stack(
 
 class EmailRegisterForm extends HookWidget {
   //const emailRegisterForm({Key? key}) : super(key: key);
+
+  //TODO:add profile photo
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
@@ -172,25 +174,29 @@ class EmailRegisterForm extends HookWidget {
                           await context
                               .read(authRepositoryProvider)
                               .registerNewUser(emailTextEditingController.text,
-                              passwordTextEditingController.text);
-                          var user = context.read(authControllerProvider.state);
-                          if(user != null){
-                            await context
-                                .read(userControllerProvider)
-                                .addUserProfile(
-                              name: nameTextEditingController.text,
-                              phone: phoneTextEditingController.text,
-                            );
-                            print(user);
-                            print(user.uid);
-                            print("Account Created");
-                            Fluttertoast.showToast(msg: "Account created!");
-                            Navigator.of(context)
-                                .pushReplacementNamed('/addVehiclesToProfile');
-                          } else {
-                            print("Account Not Created");
-                            Fluttertoast.showToast(msg: "Account Not created! User == null");
-                          }
+                                  passwordTextEditingController.text)
+                              .then((value) async {
+                            var user =
+                                context.read(authControllerProvider.state);
+                            if (user != null) {
+                              await context
+                                  .read(userControllerProvider)
+                                  .addUserProfile(
+                                    name: nameTextEditingController.text,
+                                    phone: phoneTextEditingController.text,
+                                  ); //TODO add birthday? and phone authentication
+                              print(user);
+                              print(user.uid);
+                              print("Account Created");
+                              Fluttertoast.showToast(msg: "Account created!");
+                              Navigator.of(context).pushReplacementNamed(
+                                  '/addVehiclesToProfile');
+                            } else {
+                              print("Account Not Created");
+                              Fluttertoast.showToast(
+                                  msg: "Account Not created! User == null");
+                            }
+                          });
                         }
                       },
                     ),

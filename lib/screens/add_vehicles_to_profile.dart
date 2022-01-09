@@ -12,10 +12,8 @@ import 'package:jealus_ex/screens/vehicle_list_main.dart';
 import 'home_view.dart';
 
 class ShowVehiclesMain extends HookWidget {
-
-  const ShowVehiclesMain ({Key? key}):super(key: key);
-  bool get isAtLeastOneVehicle =>
-      useProvider(vehicleListProvider).length > 0;
+  const ShowVehiclesMain({Key? key}) : super(key: key);
+  bool get isAtLeastOneVehicle => useProvider(vehicleListProvider).length > 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,40 +31,44 @@ class ShowVehiclesMain extends HookWidget {
             SizedBox(
               height: 12.0,
             ),
-            ElevatedButton(onPressed: () => AddVehicleDialog.show(context, Vehicle.empty()),
+            ElevatedButton(
+              onPressed: () => AddVehicleDialog.show(context, Vehicle.empty()),
               child: Text.rich(
-                TextSpan(style: TextStyle(
-                  fontSize: 17,
-                ),
+                TextSpan(
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
                   children: [
                     TextSpan(text: '+'),
-                    WidgetSpan(child: const Icon(Icons.directions_car_sharp),)
+                    WidgetSpan(
+                      child: const Icon(Icons.directions_car_sharp),
+                    )
                   ],
-                ),),),
+                ),
+              ),
+            ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: isAtLeastOneVehicle
-                      ? Colors.green
-                      : Colors.red,
+                  primary: isAtLeastOneVehicle ? Colors.green : Colors.red,
                 ),
                 onPressed: () {
                   context.read(vehicleListProvider).length > 0
-                      ? Navigator.of(context).popAndPushNamed(
-                    '/addAddressToProfile')
+                      ? Navigator.of(context)
+                          .popAndPushNamed('/addAddressToProfile')
                       : AddVehicleDialog.show(context, Vehicle.empty());
                 },
-                child:
-                Text(isAtLeastOneVehicle ? 'Proceed' : 'Add Vehicle'),
+                child: Text(isAtLeastOneVehicle ? 'Proceed' : 'Add Vehicle'),
               ),
+            ),
+            Text(
+              'You must add at least one vehicle to continue',
+              style: TextStyle(fontSize: 8),
             ),
           ],
         ),
       ),
     );
   }
-
-
-
 }

@@ -1,21 +1,18 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:jealus_ex/Dialogs/select_vehicle.dart';
+
 import 'package:jealus_ex/controllers/address_controller.dart';
 import 'package:jealus_ex/controllers/booking_controller.dart';
+import 'package:jealus_ex/controllers/user_bookings_service_controller.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 import 'package:jealus_ex/models/service_model.dart';
+import 'package:jealus_ex/controllers/main_service_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
 
 class ConfirmBooking extends HookWidget {
-
   final int serviceIndex;
   final String? typeSpecific;
   final String? detailingPackage;
@@ -24,7 +21,16 @@ class ConfirmBooking extends HookWidget {
   final DateTime selectedDate;
   final TimeOfDay startTime;
   //final int? durationMins; //This is final booking duration which will change from service duration depending on how any vehicles are chosen
-  const ConfirmBooking({Key? key, required this.serviceIndex, this.typeSpecific, this.detailingPackage, this.numberOfTires2Swap, this.numberofTires2Store, required this.selectedDate, required this.startTime}) : super(key: key);
+  const ConfirmBooking(
+      {Key? key,
+      required this.serviceIndex,
+      this.typeSpecific,
+      this.detailingPackage,
+      this.numberOfTires2Swap,
+      this.numberofTires2Store,
+      required this.selectedDate,
+      required this.startTime})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +53,9 @@ class ConfirmBooking extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget> [
-            Text(
-                servicesList[this.serviceIndex].serviceName
-            ),
-            Text(
-                this.serviceIndex.toString()
-            ),
+          children: <Widget>[
+            Text(servicesList[this.serviceIndex].serviceName),
+            Text(this.serviceIndex.toString()),
             Text(
               this.typeSpecific ?? '',
             ),
@@ -87,11 +89,12 @@ class ConfirmBooking extends HookWidget {
             //       primary: context.read(selectedVehicleListProvider).length > 0 ? Colors.green : Colors.red,
             //     ),
             //     onPressed: () => SelectVehicleDialog.show(context),),
-            SizedBox(height: 12.0,),
+            SizedBox(
+              height: 12.0,
+            ),
             RaisedButton(
                 child: Text("Confirm Booking"),
-                onPressed: () async{
-
+                onPressed: () async {
                   //TODO: each booking needs to have a list of vehicles
                   //TODO: during the process of booking a service the user will select the vehicles to be included in this service
                   //TODO: Once the user selects vehicles to be serviced out of his own veicles, the "isBooked" become true. after the booking is complete change this to false.
@@ -107,26 +110,33 @@ class ConfirmBooking extends HookWidget {
                   //bookedVehiclesList.forEach((element) { _vehiclesForBooking.add(element);});
                   //UserProfile tempServiceProvider = UserProfile(name: "Adil", phone: "647777", residenceType: "Condo", address: "123 St",id: '00001');// vehicles: tempVehicleListForServiceProvider);
                   //TODO: implement being able to select a service provider filtered by distance or ratings
-                  Service service = Service(serviceName: servicesList[this.serviceIndex].serviceName, serviceCost: servicesList[this.serviceIndex].serviceCost,
-                      serviceDurationMins: servicesList[this.serviceIndex].serviceDurationMins, typeSpecific: this.typeSpecific,
-                      detailingPackage: this.detailingPackage, numberofTires2Store: this.numberofTires2Store, numberOfTires2Swap: this.numberOfTires2Swap);
+                  // Service service = Service(serviceName: servicesList[this.serviceIndex].serviceName, serviceCost: null,
+                  //     serviceDurationMins: servicesList[this.serviceIndex].serviceDurationMins, typeSpecific: this.typeSpecific,
+                  //     detailingPackage: this.detailingPackage, numberofTires2Store: this.numberofTires2Store, numberOfTires2Swap: this.numberOfTires2Swap);
                   var user = context.read(authControllerProvider.state);
-                  if (user != null){
-                    if (context.read(selectedVehicleListProvider).length > 0 && context.read(selectedAddressListProvider).length == 1){
+                  if (user != null) {
+                    if (context.read(selectedVehicleListProvider).length > 0 &&
+                        context.read(selectedAddressListProvider).length == 1) {
                       //TODO: change the above. All the fields of a service cannot be populated for oil change and so on....
                       await context.read(bookingsControllerProvider).addBooking(
-                        startDate: selectedDate,
-                        startTimeHrs: startTime.hour,
-                        startTimeMins: startTime.minute,
-                        service: service,);
+                            startDate: selectedDate,
+                            startTimeHrs: startTime.hour,
+                            startTimeMins: startTime.minute,
+                            serviceIndex: this.serviceIndex,
+                            typseSpecific: this.typeSpecific,
+                            numberOfTires2Swap: this.numberOfTires2Swap,
+                            numberofTires2Store: this.numberofTires2Store,
+                            detailingPackage: this.detailingPackage,
+                          );
                       //vehicles: tempVehicleListForServiceProvider).then((value) => null);
                       //await db.collection("Bookings").add(widget.booking.toJason());
                       //MaterialPageRoute(builder: (context) => ConfirmBooking(typeSpecific: widget.typeSpecific, serviceIndex: widget.serviceIndex, selectedDate: selectedDate, startTime: selectedTime, detailingPackage: widget.detailingPackage, numberOfTires2Swap: widget.numberOfTires2Swap, numberofTires2Store: widget.numberofTires2Store));
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     } else {
-                      Fluttertoast.showToast(msg: "Address and/or Vehicles selection error");
+                      Fluttertoast.showToast(
+                          msg: "Address and/or Vehicles selection error");
                     }
-                  } else{
+                  } else {
                     Fluttertoast.showToast(msg: "User ID not found");
                   }
                 }),
@@ -135,10 +145,6 @@ class ConfirmBooking extends HookWidget {
       ),
       //TODO: add a cost and duration parameter to the boooking model. This is because if multiple vehicles are selected the cost and duration must increase
       //TODO: create a page before this page that the customer can select a service provider from
-
     );
   }
 }
-
-
-

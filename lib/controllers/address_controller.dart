@@ -34,8 +34,8 @@ final addressListProvider = Provider<List<Adddress>>((ref) {
   //final addressListFilterState = ref.watch(addressListFilterProvider).state;
   final addressListState = ref.watch(addressControllerProvider.state);
   return addressListState.maybeWhen(
-      data: (vehicles) {
-        return vehicles.toList();
+      data: (addresses) {
+        return addresses.toList();
       },
       orElse: () => []);
 });

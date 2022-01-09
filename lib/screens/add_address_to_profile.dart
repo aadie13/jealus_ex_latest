@@ -58,6 +58,10 @@ class ShowAddressesMain extends HookWidget {
                 child: Text(isAtLeastOneAddress ? 'Finish' : 'Add Location'),
               ),
             ),
+            Text(
+              'You must add at least one address to continue',
+              style: TextStyle(fontSize: 8),
+            ),
           ],
         ),
       ),

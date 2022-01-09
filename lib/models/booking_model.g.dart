@@ -9,6 +9,8 @@ part of 'booking_model.dart';
 _$_Booking _$_$_BookingFromJson(Map<String, dynamic> json) {
   return _$_Booking(
     id: json['id'] as String?,
+    userID: json['userID'] as String,
+    mechanicID: json['mechanicID'] as String,
     startDate: DateTime.parse(json['startDate'] as String),
     startTimeHrs: json['startTimeHrs'] as int,
     startTimeMins: json['startTimeMins'] as int,
@@ -20,6 +22,8 @@ _$_Booking _$_$_BookingFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_BookingToJson(_$_Booking instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'userID': instance.userID,
+      'mechanicID': instance.mechanicID,
       'startDate': instance.startDate.toIso8601String(),
       'startTimeHrs': instance.startTimeHrs,
       'startTimeMins': instance.startTimeMins,

@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
+import 'package:jealus_ex/controllers/user_bookings_service_controller.dart';
 import 'package:jealus_ex/models/service_model.dart';
 import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/models/booking_model.dart';
@@ -9,6 +10,7 @@ import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/booking_repository.dart';
 import 'package:jealus_ex/controllers/vehicles_controller.dart';
 
+import 'main_service_controller.dart';
 
 enum BookingsListFilter {
   all,
@@ -17,7 +19,7 @@ enum BookingsListFilter {
 }
 
 final bookingsListFilterProvider =
-StateProvider<BookingsListFilter>((_) => BookingsListFilter.all);
+    StateProvider<BookingsListFilter>((_) => BookingsListFilter.all);
 
 final completedBookingsListProvider = Provider<List<Booking>>((ref) {
   final bookingsListFilterState = ref.watch(bookingsListFilterProvider).state;
@@ -54,72 +56,93 @@ final pendingBookingsListProvider = Provider<List<Booking>>((ref) {
 final bookingsExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 final bookingsControllerProvider = StateNotifierProvider<BookingsController>(
-      (ref) {
+  (ref) {
     final user = ref.watch(authControllerProvider.state);
     return BookingsController(ref.read, user?.uid);
   },
 );
 
 class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
-
   final Reader _read;
   final String? _userId;
 
-  BookingsController(this._read,this._userId):super(AsyncValue.loading()){
+  BookingsController(this._read, this._userId) : super(AsyncValue.loading()) {
     retrieveBookings();
-
   }
 
-  Future<void> retrieveBookings({bool isRefreshing = false}) async{
+  Future<void> retrieveBookings({bool isRefreshing = false}) async {
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final bookings = await _read(bookingsRepositoryProvider).retrieveBookings(userId: _userId!);
-      if (mounted){
+      final bookings = await _read(bookingsRepositoryProvider)
+          .retrieveBookings(userId: _userId!);
+      if (mounted) {
         state = AsyncValue.data(bookings);
       }
-    } on CustomException catch(e, st){
+    } on CustomException catch (e, st) {
       state = AsyncValue.error(e, st);
     }
   }
 
-  Future<void> addBooking({ //should be the mechanic user
+  Future<void> addBooking({
+    //should be the mechanic user
     required DateTime startDate,
     required int startTimeHrs,
     required int startTimeMins,
-    required Service service,
-  }) async{//required List<Vehicle> vehicles,}) async{
+    required int serviceIndex,
+    String? typseSpecific,
+    int? numberOfTires2Swap,
+    int? numberofTires2Store,
+    String? detailingPackage,
+  }) async {
+    //required List<Vehicle> vehicles,}) async{
     try {
-      final booking = Booking( startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins);// vehicles: vehicles, );
-      final bookingID = await _read(bookingsRepositoryProvider).createBooking(userId: _userId!, booking: booking);
-      state.whenData((bookings) =>
-      state = AsyncValue.data(bookings..add(booking.copyWith(id: bookingID)))
-      );
-    } on CustomException catch(e, st){
+      final booking = Booking(
+          startDate: startDate,
+          startTimeHrs: startTimeHrs,
+          startTimeMins: startTimeMins,
+          mechanicID: '',
+          userID: _userId!); // vehicles: vehicles, );
+      final bookingID = await _read(bookingsRepositoryProvider)
+          .createBooking(userId: _userId!, booking: booking);
+      final mainServicesList = await _read(serviceListProvider);
+      final usersBookingsService =
+          await _read(usersBookingServiceControllerProvider);
+      print("before the foor loop");
+      Service service = Service(serviceName: servicesList[serviceIndex].serviceName,
+          serviceDurationMins: servicesList[serviceIndex].serviceDurationMins,
+      serviceCost: servicesList[serviceIndex].serviceCost,
+      numberOfTires2Swap: numberOfTires2Swap,
+        numberofTires2Store: numberofTires2Store,typeSpecific: typseSpecific, detailingPackage: detailingPackage );
+      usersBookingsService.addService(service: service, bookingID: bookingID);
+      state.whenData((bookings) => state =
+          AsyncValue.data(bookings..add(booking.copyWith(id: bookingID))));
+    } on CustomException catch (e, st) {
       _read(bookingsExceptionProvider).state = e;
     }
   }
 
   Future<void> updateBooking({required Booking updatedBooking}) async {
     try {
-      await _read(bookingsRepositoryProvider).updateBooking(userId: _userId!, booking: updatedBooking);
+      await _read(bookingsRepositoryProvider)
+          .updateBooking(userId: _userId!, booking: updatedBooking);
       state.whenData((bookings) {
         state = AsyncValue.data([
           for (final booking in bookings)
             if (booking.id == updatedBooking.id) updatedBooking else booking
         ]);
       });
-    } on CustomException catch (e){
+    } on CustomException catch (e) {
       _read(bookingsExceptionProvider).state = e;
     }
   }
 
   Future<void> deleteBooking({required String bookingId}) async {
     try {
-      await _read(bookingsRepositoryProvider).deleteBooking(userId: _userId!, bookingId: bookingId);
-      state.whenData((bookings) =>
-      state = AsyncValue.data(bookings..removeWhere((element) => element.id == bookingId))
-      );
-    } on CustomException catch (e){
+      await _read(bookingsRepositoryProvider)
+          .deleteBooking(userId: _userId!, bookingId: bookingId);
+      state.whenData((bookings) => state = AsyncValue.data(
+          bookings..removeWhere((element) => element.id == bookingId)));
+    } on CustomException catch (e) {
       _read(bookingsExceptionProvider).state = e;
     }
   }

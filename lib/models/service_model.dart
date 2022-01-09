@@ -14,7 +14,7 @@ abstract class Service implements _$Service {
     String? id,
     required String serviceName,
     String? typeSpecific, //TODO: this is specifically made for oil change {Synthetic, Regular or BYOO. Change it such that it is a ist with the string values which itself will have cost, properties etc
-    required double serviceCost,
+    double? serviceCost,
     required double serviceDurationMins,
     //To be used for Tire swapping
     // TODO bad practise below. Create Oil CHANGE, TireSwap, etc as separate class so each class can have a particular field like shown below.
@@ -22,6 +22,7 @@ abstract class Service implements _$Service {
     int? numberofTires2Store,
     String? detailingPackage,
     @Default(false) bool isCurrent,
+    @Default(false) bool isSelected,
 
   }) = _Service;
 
@@ -40,8 +41,8 @@ abstract class Service implements _$Service {
 List<Service> servicesList = [
   //TODO make the cost and duration a variable that changes from the input of the mechanics
   //And is average of the input from mechanics
-  Service(serviceName: "Oil Change", serviceCost: 200, serviceDurationMins: 60),
-  Service(serviceName: "Tire Change", serviceCost: 80, serviceDurationMins: 60),
+  Service(serviceName: "Oil Change", serviceCost: 120, serviceDurationMins: 60),
+  Service(serviceName: "Tire Service", serviceCost: 80, serviceDurationMins: 60),
   Service(serviceName: "Detailing", serviceCost: 100, serviceDurationMins: 180),
   Service(serviceName: "Inspection", serviceCost: 50, serviceDurationMins: 60),
   Service(serviceName: "Battery", serviceCost: 140, serviceDurationMins: 30),

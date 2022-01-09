@@ -11,12 +11,13 @@ _$_Service _$_$_ServiceFromJson(Map<String, dynamic> json) {
     id: json['id'] as String?,
     serviceName: json['serviceName'] as String,
     typeSpecific: json['typeSpecific'] as String?,
-    serviceCost: (json['serviceCost'] as num).toDouble(),
+    serviceCost: (json['serviceCost'] as num?)?.toDouble(),
     serviceDurationMins: (json['serviceDurationMins'] as num).toDouble(),
     numberOfTires2Swap: json['numberOfTires2Swap'] as int?,
     numberofTires2Store: json['numberofTires2Store'] as int?,
     detailingPackage: json['detailingPackage'] as String?,
     isCurrent: json['isCurrent'] as bool? ?? false,
+    isSelected: json['isSelected'] as bool? ?? false,
   );
 }
 
@@ -31,4 +32,5 @@ Map<String, dynamic> _$_$_ServiceToJson(_$_Service instance) =>
       'numberofTires2Store': instance.numberofTires2Store,
       'detailingPackage': instance.detailingPackage,
       'isCurrent': instance.isCurrent,
+      'isSelected': instance.isSelected,
     };

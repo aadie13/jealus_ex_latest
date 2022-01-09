@@ -7,6 +7,9 @@ extension FirebaseFirestoreX on FirebaseFirestore {
   CollectionReference userBookedVehiclesRef(String userId, String bookingID) =>
       collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Vehicles');
 
+  CollectionReference userBookingsServiceRef(String userId, String bookingID) =>
+      collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Service');
+
   CollectionReference userBookedAddressRef(String userId, String bookingID) =>
       collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Address');
 

@@ -17,8 +17,8 @@ class _BookOilChangeState extends State<BookOilChange> {
   //Creating temporary inputs for a new booking which will be edited across the booking process
   //Booking currentBooking = new Booking(serviceProvider: serviceProvider, startDate: startDate, startTimeHrs: startTimeHrs, startTimeMins: startTimeMins, service: service);
   //Service0708 currentService = new Service0708("Oil Change",null,null,null);
-  String serviceName = "Oil Change";
-  int serviceIndex = 1; // represents the first item in the servicesList in service_model.dart
+  //String serviceName = "Oil Change";
+  int serviceIndex = 0; // represents the first item in the servicesList in service_model.dart
   late String? typeSpecific;
 
   @override

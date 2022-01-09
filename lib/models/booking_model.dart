@@ -18,6 +18,8 @@ abstract class Booking implements _$Booking {
     String? id, //should be the user id of the customer
     //required UserProfile serviceProvider, //should be the mechanic user
     //TODO: add service provider to the booking
+    required String userID,
+    required String mechanicID,
     required DateTime startDate,
     required int startTimeHrs,
     required int startTimeMins,
@@ -25,7 +27,7 @@ abstract class Booking implements _$Booking {
     //TODO: add service to the booking
     //required List<Vehicle> vehicles,//TODO: NOTE- this app allows multiple vehicles per booking
     @Default(false) bool isCompleted, //is the job done? If so what are the reviews? TODO: add review setup in the app
-    @Default(false) bool isAccepted, //has 
+    @Default(false) bool isAccepted,  //has
   }) = _Booking;
 
   factory Booking.fromJson(Map<String, dynamic> data) =>_$BookingFromJson(data);

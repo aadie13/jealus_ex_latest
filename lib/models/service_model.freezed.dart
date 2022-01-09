@@ -24,12 +24,13 @@ class _$ServiceTearOff {
       {String? id,
       required String serviceName,
       String? typeSpecific,
-      required double serviceCost,
+      double? serviceCost,
       required double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
       String? detailingPackage,
-      bool isCurrent = false}) {
+      bool isCurrent = false,
+      bool isSelected = false}) {
     return _Service(
       id: id,
       serviceName: serviceName,
@@ -40,6 +41,7 @@ class _$ServiceTearOff {
       numberofTires2Store: numberofTires2Store,
       detailingPackage: detailingPackage,
       isCurrent: isCurrent,
+      isSelected: isSelected,
     );
   }
 
@@ -57,7 +59,7 @@ mixin _$Service {
   String get serviceName => throw _privateConstructorUsedError;
   String? get typeSpecific =>
       throw _privateConstructorUsedError; //TODO: this is specifically made for oil change {Synthetic, Regular or BYOO. Change it such that it is a ist with the string values which itself will have cost, properties etc
-  double get serviceCost => throw _privateConstructorUsedError;
+  double? get serviceCost => throw _privateConstructorUsedError;
   double get serviceDurationMins =>
       throw _privateConstructorUsedError; //To be used for Tire swapping
 // TODO bad practise below. Create Oil CHANGE, TireSwap, etc as separate class so each class can have a particular field like shown below.
@@ -65,6 +67,7 @@ mixin _$Service {
   int? get numberofTires2Store => throw _privateConstructorUsedError;
   String? get detailingPackage => throw _privateConstructorUsedError;
   bool get isCurrent => throw _privateConstructorUsedError;
+  bool get isSelected => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -79,12 +82,13 @@ abstract class $ServiceCopyWith<$Res> {
       {String? id,
       String serviceName,
       String? typeSpecific,
-      double serviceCost,
+      double? serviceCost,
       double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
       String? detailingPackage,
-      bool isCurrent});
+      bool isCurrent,
+      bool isSelected});
 }
 
 /// @nodoc
@@ -106,6 +110,7 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
     Object? numberofTires2Store = freezed,
     Object? detailingPackage = freezed,
     Object? isCurrent = freezed,
+    Object? isSelected = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -123,7 +128,7 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
       serviceCost: serviceCost == freezed
           ? _value.serviceCost
           : serviceCost // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       serviceDurationMins: serviceDurationMins == freezed
           ? _value.serviceDurationMins
           : serviceDurationMins // ignore: cast_nullable_to_non_nullable
@@ -144,6 +149,10 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
           ? _value.isCurrent
           : isCurrent // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSelected: isSelected == freezed
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,12 +166,13 @@ abstract class _$ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       {String? id,
       String serviceName,
       String? typeSpecific,
-      double serviceCost,
+      double? serviceCost,
       double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
       String? detailingPackage,
-      bool isCurrent});
+      bool isCurrent,
+      bool isSelected});
 }
 
 /// @nodoc
@@ -185,6 +195,7 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
     Object? numberofTires2Store = freezed,
     Object? detailingPackage = freezed,
     Object? isCurrent = freezed,
+    Object? isSelected = freezed,
   }) {
     return _then(_Service(
       id: id == freezed
@@ -202,7 +213,7 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
       serviceCost: serviceCost == freezed
           ? _value.serviceCost
           : serviceCost // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       serviceDurationMins: serviceDurationMins == freezed
           ? _value.serviceDurationMins
           : serviceDurationMins // ignore: cast_nullable_to_non_nullable
@@ -223,6 +234,10 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
           ? _value.isCurrent
           : isCurrent // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSelected: isSelected == freezed
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -234,12 +249,13 @@ class _$_Service extends _Service {
       {this.id,
       required this.serviceName,
       this.typeSpecific,
-      required this.serviceCost,
+      this.serviceCost,
       required this.serviceDurationMins,
       this.numberOfTires2Swap,
       this.numberofTires2Store,
       this.detailingPackage,
-      this.isCurrent = false})
+      this.isCurrent = false,
+      this.isSelected = false})
       : super._();
 
   factory _$_Service.fromJson(Map<String, dynamic> json) =>
@@ -252,7 +268,7 @@ class _$_Service extends _Service {
   @override
   final String? typeSpecific;
   @override //TODO: this is specifically made for oil change {Synthetic, Regular or BYOO. Change it such that it is a ist with the string values which itself will have cost, properties etc
-  final double serviceCost;
+  final double? serviceCost;
   @override
   final double serviceDurationMins;
   @override //To be used for Tire swapping
@@ -265,10 +281,13 @@ class _$_Service extends _Service {
   @JsonKey(defaultValue: false)
   @override
   final bool isCurrent;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isSelected;
 
   @override
   String toString() {
-    return 'Service(id: $id, serviceName: $serviceName, typeSpecific: $typeSpecific, serviceCost: $serviceCost, serviceDurationMins: $serviceDurationMins, numberOfTires2Swap: $numberOfTires2Swap, numberofTires2Store: $numberofTires2Store, detailingPackage: $detailingPackage, isCurrent: $isCurrent)';
+    return 'Service(id: $id, serviceName: $serviceName, typeSpecific: $typeSpecific, serviceCost: $serviceCost, serviceDurationMins: $serviceDurationMins, numberOfTires2Swap: $numberOfTires2Swap, numberofTires2Store: $numberofTires2Store, detailingPackage: $detailingPackage, isCurrent: $isCurrent, isSelected: $isSelected)';
   }
 
   @override
@@ -300,7 +319,10 @@ class _$_Service extends _Service {
                     .equals(other.detailingPackage, detailingPackage)) &&
             (identical(other.isCurrent, isCurrent) ||
                 const DeepCollectionEquality()
-                    .equals(other.isCurrent, isCurrent)));
+                    .equals(other.isCurrent, isCurrent)) &&
+            (identical(other.isSelected, isSelected) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSelected, isSelected)));
   }
 
   @override
@@ -314,7 +336,8 @@ class _$_Service extends _Service {
       const DeepCollectionEquality().hash(numberOfTires2Swap) ^
       const DeepCollectionEquality().hash(numberofTires2Store) ^
       const DeepCollectionEquality().hash(detailingPackage) ^
-      const DeepCollectionEquality().hash(isCurrent);
+      const DeepCollectionEquality().hash(isCurrent) ^
+      const DeepCollectionEquality().hash(isSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -332,12 +355,13 @@ abstract class _Service extends Service {
       {String? id,
       required String serviceName,
       String? typeSpecific,
-      required double serviceCost,
+      double? serviceCost,
       required double serviceDurationMins,
       int? numberOfTires2Swap,
       int? numberofTires2Store,
       String? detailingPackage,
-      bool isCurrent}) = _$_Service;
+      bool isCurrent,
+      bool isSelected}) = _$_Service;
   const _Service._() : super._();
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
@@ -349,7 +373,7 @@ abstract class _Service extends Service {
   @override
   String? get typeSpecific => throw _privateConstructorUsedError;
   @override //TODO: this is specifically made for oil change {Synthetic, Regular or BYOO. Change it such that it is a ist with the string values which itself will have cost, properties etc
-  double get serviceCost => throw _privateConstructorUsedError;
+  double? get serviceCost => throw _privateConstructorUsedError;
   @override
   double get serviceDurationMins => throw _privateConstructorUsedError;
   @override //To be used for Tire swapping
@@ -361,6 +385,8 @@ abstract class _Service extends Service {
   String? get detailingPackage => throw _privateConstructorUsedError;
   @override
   bool get isCurrent => throw _privateConstructorUsedError;
+  @override
+  bool get isSelected => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ServiceCopyWith<_Service> get copyWith =>

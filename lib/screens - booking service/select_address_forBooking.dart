@@ -13,9 +13,7 @@ import 'package:jealus_ex/models/vehicle_model.dart';
 
 import 'date_time_picker.dart';
 
-
 class SelectAddressToBook extends HookWidget {
-
   final int serviceIndex;
   final String? typeSpecific;
   final String? detailingPackage;
@@ -24,11 +22,11 @@ class SelectAddressToBook extends HookWidget {
 
   const SelectAddressToBook(
       {Key? key,
-        required this.serviceIndex,
-        this.typeSpecific,
-        this.detailingPackage,
-        this.numberOfTires2Swap,
-        this.numberofTires2Store})
+      required this.serviceIndex,
+      this.typeSpecific,
+      this.detailingPackage,
+      this.numberOfTires2Swap,
+      this.numberofTires2Store})
       : super(key: key);
   bool get isOnlyOneAddressSelected =>
       useProvider(selectedAddressListProvider).length == 1;
@@ -48,18 +46,20 @@ class SelectAddressToBook extends HookWidget {
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        decoration: BoxDecoration(border: Border.all(color: Colors.blue, width: 1), ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 1),
+                        ),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:10),
+                          padding: const EdgeInsets.only(top: 10),
                           child: const AddressListToSelect(),
                         ),
                       ),
-
                       Positioned(
                         left: 30,
                         top: -10,
                         child: Container(
-                          padding: EdgeInsets.only(bottom: 0,top: 5, left: 10, right: 10),
+                          padding: EdgeInsets.only(
+                              bottom: 0, top: 5, left: 10, right: 10),
                           color: Colors.white,
                           child: Text(
                             'Select a Location for this Booking',
@@ -69,34 +69,39 @@ class SelectAddressToBook extends HookWidget {
                       ),
                     ],
                   ),
-                ),),
+                ),
+              ),
             ),
             SizedBox(
               height: 50,
               child: new Row(
                 children: [
                   Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      children: [
-                        TextSpan(text: '+'),
-                        WidgetSpan(
-                          child: const Icon(Icons.location_on_rounded),
-
+                  ElevatedButton(
+                    onPressed: () =>
+                        AddAddressDialog.show(context, Adddress.empty()),
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontSize: 17,
                         ),
-                      ],
+                        children: [
+                          TextSpan(text: '+'),
+                          WidgetSpan(
+                            child: const Icon(Icons.location_on_rounded),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10,)
+                  SizedBox(
+                    width: 10,
+                  )
                 ],
               ),
             ),
-
             Padding(
-              padding: const EdgeInsets.only(top:30.0),
+              padding: const EdgeInsets.only(top: 30.0),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -109,30 +114,33 @@ class SelectAddressToBook extends HookWidget {
                   onPressed: () {
                     context.read(selectedAddressListProvider).length == 1
                         ? Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DateTimePicker(
-                            typeSpecific: typeSpecific,
-                            serviceIndex: serviceIndex,
-                            detailingPackage: detailingPackage,
-                            numberOfTires2Swap: numberOfTires2Swap,
-                            numberofTires2Store: numberofTires2Store,
-                          )),
-                    )
-                        : Fluttertoast.showToast(msg: "Select ONLY 1 location and At least 1 vehicle");
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DateTimePicker(
+                                      typeSpecific: typeSpecific,
+                                      serviceIndex: serviceIndex,
+                                      detailingPackage: detailingPackage,
+                                      numberOfTires2Swap: numberOfTires2Swap,
+                                      numberofTires2Store: numberofTires2Store,
+                                    )),
+                          )
+                        : Fluttertoast.showToast(
+                            msg:
+                                "Select ONLY 1 location and At least 1 vehicle");
                   },
-                  child:
-                  Text(isOnlyOneAddressSelected ? 'Proceed' : 'Select only 1 location'),
+                  child: Text(isOnlyOneAddressSelected
+                      ? 'Proceed'
+                      : 'Select only 1 location'),
                 ),
               ),
             ),
-
-
+            Text(
+              'You must select just one address to continue',
+              style: TextStyle(fontSize: 8),
+            ),
           ],
         ),
       ),
     );
   }
-
-
 }
