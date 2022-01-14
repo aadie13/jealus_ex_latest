@@ -89,6 +89,21 @@ class BookingRepository implements BaseBookingRepository {
   Future<void> deleteBooking(
       {required String userId, required String bookingId}) async {
     try {
+      await _read(firebaseFirestoreProvider).userBookingsRef(userId).doc(bookingId).collection('Vehicles').get().then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs){
+          ds.reference.delete();
+        }
+      });
+      await _read(firebaseFirestoreProvider).userBookingsRef(userId).doc(bookingId).collection('Service').get().then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs){
+          ds.reference.delete();
+        }
+      });
+      await _read(firebaseFirestoreProvider).userBookingsRef(userId).doc(bookingId).collection('Address').get().then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs){
+          ds.reference.delete();
+        }
+      });
       await _read(firebaseFirestoreProvider)
           .userBookingsRef(userId)
           .doc(bookingId)

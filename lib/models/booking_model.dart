@@ -20,6 +20,7 @@ abstract class Booking implements _$Booking {
     //TODO: add service provider to the booking
     required String userID,
     required String mechanicID,
+    required String bidID,
     required DateTime startDate,
     required int startTimeHrs,
     required int startTimeMins,

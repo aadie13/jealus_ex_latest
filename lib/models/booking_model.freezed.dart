@@ -24,6 +24,7 @@ class _$BookingTearOff {
       {String? id,
       required String userID,
       required String mechanicID,
+      required String bidID,
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
@@ -33,6 +34,7 @@ class _$BookingTearOff {
       id: id,
       userID: userID,
       mechanicID: mechanicID,
+      bidID: bidID,
       startDate: startDate,
       startTimeHrs: startTimeHrs,
       startTimeMins: startTimeMins,
@@ -57,6 +59,7 @@ mixin _$Booking {
 //TODO: add service provider to the booking
   String get userID => throw _privateConstructorUsedError;
   String get mechanicID => throw _privateConstructorUsedError;
+  String get bidID => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   int get startTimeHrs => throw _privateConstructorUsedError;
   int get startTimeMins =>
@@ -80,6 +83,7 @@ abstract class $BookingCopyWith<$Res> {
       {String? id,
       String userID,
       String mechanicID,
+      String bidID,
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
@@ -100,6 +104,7 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
     Object? id = freezed,
     Object? userID = freezed,
     Object? mechanicID = freezed,
+    Object? bidID = freezed,
     Object? startDate = freezed,
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
@@ -118,6 +123,10 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
       mechanicID: mechanicID == freezed
           ? _value.mechanicID
           : mechanicID // ignore: cast_nullable_to_non_nullable
+              as String,
+      bidID: bidID == freezed
+          ? _value.bidID
+          : bidID // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: startDate == freezed
           ? _value.startDate
@@ -152,6 +161,7 @@ abstract class _$BookingCopyWith<$Res> implements $BookingCopyWith<$Res> {
       {String? id,
       String userID,
       String mechanicID,
+      String bidID,
       DateTime startDate,
       int startTimeHrs,
       int startTimeMins,
@@ -173,6 +183,7 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
     Object? id = freezed,
     Object? userID = freezed,
     Object? mechanicID = freezed,
+    Object? bidID = freezed,
     Object? startDate = freezed,
     Object? startTimeHrs = freezed,
     Object? startTimeMins = freezed,
@@ -191,6 +202,10 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
       mechanicID: mechanicID == freezed
           ? _value.mechanicID
           : mechanicID // ignore: cast_nullable_to_non_nullable
+              as String,
+      bidID: bidID == freezed
+          ? _value.bidID
+          : bidID // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: startDate == freezed
           ? _value.startDate
@@ -223,6 +238,7 @@ class _$_Booking extends _Booking {
       {this.id,
       required this.userID,
       required this.mechanicID,
+      required this.bidID,
       required this.startDate,
       required this.startTimeHrs,
       required this.startTimeMins,
@@ -242,6 +258,8 @@ class _$_Booking extends _Booking {
   @override
   final String mechanicID;
   @override
+  final String bidID;
+  @override
   final DateTime startDate;
   @override
   final int startTimeHrs;
@@ -258,7 +276,7 @@ class _$_Booking extends _Booking {
 
   @override
   String toString() {
-    return 'Booking(id: $id, userID: $userID, mechanicID: $mechanicID, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted, isAccepted: $isAccepted)';
+    return 'Booking(id: $id, userID: $userID, mechanicID: $mechanicID, bidID: $bidID, startDate: $startDate, startTimeHrs: $startTimeHrs, startTimeMins: $startTimeMins, isCompleted: $isCompleted, isAccepted: $isAccepted)';
   }
 
   @override
@@ -272,6 +290,8 @@ class _$_Booking extends _Booking {
             (identical(other.mechanicID, mechanicID) ||
                 const DeepCollectionEquality()
                     .equals(other.mechanicID, mechanicID)) &&
+            (identical(other.bidID, bidID) ||
+                const DeepCollectionEquality().equals(other.bidID, bidID)) &&
             (identical(other.startDate, startDate) ||
                 const DeepCollectionEquality()
                     .equals(other.startDate, startDate)) &&
@@ -295,6 +315,7 @@ class _$_Booking extends _Booking {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(userID) ^
       const DeepCollectionEquality().hash(mechanicID) ^
+      const DeepCollectionEquality().hash(bidID) ^
       const DeepCollectionEquality().hash(startDate) ^
       const DeepCollectionEquality().hash(startTimeHrs) ^
       const DeepCollectionEquality().hash(startTimeMins) ^
@@ -317,6 +338,7 @@ abstract class _Booking extends Booking {
       {String? id,
       required String userID,
       required String mechanicID,
+      required String bidID,
       required DateTime startDate,
       required int startTimeHrs,
       required int startTimeMins,
@@ -334,6 +356,8 @@ abstract class _Booking extends Booking {
   String get userID => throw _privateConstructorUsedError;
   @override
   String get mechanicID => throw _privateConstructorUsedError;
+  @override
+  String get bidID => throw _privateConstructorUsedError;
   @override
   DateTime get startDate => throw _privateConstructorUsedError;
   @override

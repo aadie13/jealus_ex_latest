@@ -2,15 +2,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/controllers/user_bookings_service_controller.dart';
 import 'package:jealus_ex/models/service_model.dart';
-import 'package:jealus_ex/models/user_model.dart';
 import 'package:jealus_ex/models/booking_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
-import 'package:jealus_ex/models/vehicle_model.dart';
-import 'package:jealus_ex/repositories/user_profile_repository.dart';
 import 'package:jealus_ex/repositories/booking_repository.dart';
-import 'package:jealus_ex/controllers/vehicles_controller.dart';
-
-import 'main_service_controller.dart';
+import 'package:jealus_ex/controllers/allBookingsDatabase_controller.dart';
 
 enum BookingsListFilter {
   all,
@@ -101,12 +96,14 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
           startTimeHrs: startTimeHrs,
           startTimeMins: startTimeMins,
           mechanicID: '',
+          bidID: '',
           userID: _userId!); // vehicles: vehicles, );
       final bookingID = await _read(bookingsRepositoryProvider)
           .createBooking(userId: _userId!, booking: booking);
-      final mainServicesList = await _read(serviceListProvider);
       final usersBookingsService =
           await _read(usersBookingServiceControllerProvider);
+      final allBookingsDatabase =
+      await _read(allBookingsDatabaseControllerProvider);
       print("before the foor loop");
       Service service = Service(serviceName: servicesList[serviceIndex].serviceName,
           serviceDurationMins: servicesList[serviceIndex].serviceDurationMins,
@@ -114,6 +111,7 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
       numberOfTires2Swap: numberOfTires2Swap,
         numberofTires2Store: numberofTires2Store,typeSpecific: typseSpecific, detailingPackage: detailingPackage );
       usersBookingsService.addService(service: service, bookingID: bookingID);
+      allBookingsDatabase.addBooking(booking: booking, bookingID: bookingID);
       state.whenData((bookings) => state =
           AsyncValue.data(bookings..add(booking.copyWith(id: bookingID))));
     } on CustomException catch (e, st) {
