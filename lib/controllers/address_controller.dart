@@ -3,6 +3,7 @@ import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/models/address.dart';
 import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/repositories/address_repository.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 import '../general_providers.dart';
 
@@ -104,6 +105,7 @@ class AddressController extends StateNotifier<AsyncValue<List<Adddress>>> {
       bool isServiceLocation = false,
       required String bookingID}) async {
     try {
+      final geo = Geoflutterfire();
       final address = Adddress(
           placeFormattedAddress: placeFormattedAddress,
           placeName: placeName,

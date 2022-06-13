@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/models/address.dart';
 import 'package:jealus_ex/custom_exception.dart';
@@ -39,13 +40,18 @@ class AddressRepository implements BaseAddressRepository{
   @override
   Future<String> addAddressToABookingInAllBookingsDatabase({required String bookingId, required Adddress address}) async{
     try {
+      final geo = Geoflutterfire();
       final docRef = await _read(firebaseFirestoreProvider)
           .allBookingsDatabaseAddressRef(bookingId).add(address.toDocument());
+      GeoFirePoint bookingLocation = geo.point(latitude: address.latitude, longitude: address.longitude);
+      await _read(firebaseFirestoreProvider).allBookingsDatabaseAddressGeoRef(bookingId, docRef.id).add(bookingLocation.data);
       return docRef.id;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);
     }
   }
+
+
 
   @override
   Future<void> updateAddress({required String userId, required Adddress address}) async{
@@ -81,6 +87,8 @@ class AddressRepository implements BaseAddressRepository{
       throw CustomException(message: e.message);
     }
   }
+
+
 }
 
 

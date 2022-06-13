@@ -35,7 +35,7 @@ class AllBookingsDatabaseRepository implements BaseAllBookingsDatabaseRepository
   @override
   Future<void> createBooking(
       {required Booking booking, required Service service}) async {
-    final geo = Geoflutterfire();
+    //final geo = Geoflutterfire();
     try {
       //add the booking document
       final docRef = await _read(firebaseFirestoreProvider)
@@ -74,14 +74,14 @@ class AllBookingsDatabaseRepository implements BaseAllBookingsDatabaseRepository
       final addressControllerRef = await _read(addressControllerProvider);
       final selectedAddressList = await _read(selectedAddressListProvider);
       for (int i = 0; i < selectedAddressList.length; i++) {
-        GeoFirePoint bookingLocation = geo.point(latitude: selectedAddressList[i].latitude, longitude: selectedAddressList[i].longitude);
+        //GeoFirePoint bookingLocation = geo.point(latitude: selectedAddressList[i].latitude, longitude: selectedAddressList[i].longitude);
         addressControllerRef.addAddressToABookingInAllBookingsDatabase(
             placeFormattedAddress: selectedAddressList[i].placeFormattedAddress,
             placeName: selectedAddressList[i].placeName, latitude: selectedAddressList[i].latitude,
             longitude: selectedAddressList[i].longitude, addressType: selectedAddressList[i].addressType,
             bookingID: docRef.id).then((value) => {
           addressControllerRef.updateAddress(updatedAddress: selectedAddressList[i].copyWith(isServiceLocation: !selectedAddressList[i].isServiceLocation,)),
-          ARef.add({'location': bookingLocation.data}),
+          //ARef.add({'location': bookingLocation.data}),
         });
         // ARef.add(selectedAddressList[i].toDocument()).then((value) => {
         //   ARef.add({'location': bookingLocation.data}),
