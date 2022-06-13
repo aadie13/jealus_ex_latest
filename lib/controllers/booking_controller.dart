@@ -111,7 +111,7 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
       numberOfTires2Swap: numberOfTires2Swap,
         numberofTires2Store: numberofTires2Store,typeSpecific: typseSpecific, detailingPackage: detailingPackage );
       usersBookingsService.addService(service: service, bookingID: bookingID);
-      allBookingsDatabase.addBooking(booking: booking, bookingID: bookingID);
+      //allBookingsDatabase.addBooking(booking: booking, bookingID: bookingID);
       state.whenData((bookings) => state =
           AsyncValue.data(bookings..add(booking.copyWith(id: bookingID))));
     } on CustomException catch (e, st) {

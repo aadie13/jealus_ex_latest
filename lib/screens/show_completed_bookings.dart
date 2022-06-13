@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/booking_controller.dart';
 import 'package:jealus_ex/models/booking_model.dart';
 
+import '../controllers/allBookingsDatabase_controller.dart';
 import '../custom_exception.dart';
 
 final currentBooking =
@@ -14,8 +15,8 @@ class CompletedBookingsList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completedBookingsList = useProvider(completedBookingsListProvider);
-    final bookingsListState = useProvider(bookingsControllerProvider.state);
+    final completedBookingsList = useProvider(completedBookingsFromDatabaseListProvider);
+    final bookingsListState = useProvider(allBookingsDatabaseControllerProvider.state);
     return bookingsListState.when(
       data: (bookings) => bookings.isEmpty
           ? const Center(

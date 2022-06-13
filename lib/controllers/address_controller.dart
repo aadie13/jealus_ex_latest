@@ -95,6 +95,32 @@ class AddressController extends StateNotifier<AsyncValue<List<Adddress>>> {
     }
   }
 
+  Future<void> addAddressToABookingInAllBookingsDatabase(
+      {required String placeFormattedAddress,
+      required String placeName,
+      required double latitude,
+      required double longitude,
+      required String addressType,
+      bool isServiceLocation = false,
+      required String bookingID}) async {
+    try {
+      final address = Adddress(
+          placeFormattedAddress: placeFormattedAddress,
+          placeName: placeName,
+          latitude: latitude,
+          longitude: longitude,
+          isServiceLocation: isServiceLocation,
+          addressType: addressType);
+      final addressID = await _read(addressRepositoryProvider)
+          .addAddressToABookingInAllBookingsDatabase(
+              bookingId: bookingID, address: address);
+      state.whenData((addresses) => state =
+          AsyncValue.data(addresses..add(address.copyWith(id: addressID))));
+    } on CustomException catch (e, st) {
+      _read(addressExceptionProvider).state = e;
+    }
+  }
+
   Future<void> updateAddress({required Adddress updatedAddress}) async {
     try {
       await _read(addressRepositoryProvider)

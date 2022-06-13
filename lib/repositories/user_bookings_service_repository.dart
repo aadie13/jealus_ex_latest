@@ -10,6 +10,7 @@ import '../general_providers.dart';
 abstract class BaseUsersBookingServiceRepository {
   Future<List<Service>> retrieveServices({required String userID, required String bookingID});
   Future<String> createService({required String userID, required String bookingID, required Service service});
+  Future<String> addServicetoBookingInAllBookingsDatabase({required String bookingID, required Service service});
   Future<void> updateService({required String userID,  required String bookingID, required Service service});
   Future<void> deleteService({required String userID, required String bookingID, required String serviceID, });
 }
@@ -45,6 +46,17 @@ class UsersBookingServiceRepository implements BaseUsersBookingServiceRepository
       throw CustomException(message: e.message);
     }
   }
+  @override
+  Future<String> addServicetoBookingInAllBookingsDatabase({required String bookingID, required Service service}) async{
+    try {
+      final docRef = await _read(firebaseFirestoreProvider)
+          .allBookingsDatabaseServiceRef(bookingID)
+          .add(service.toDocument());
+      return docRef.id;
+    } on FirebaseException catch (e) {
+      throw CustomException(message: e.message);
+    }
+  }
 
   @override
   Future<void> updateService({required String userID,  required String bookingID, required Service service}) async{
@@ -71,6 +83,7 @@ class UsersBookingServiceRepository implements BaseUsersBookingServiceRepository
       throw CustomException(message: e.message);
     }
   }
+
 }
 
 

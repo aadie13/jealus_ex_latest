@@ -11,6 +11,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jealus_ex/models/vehicle_model.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+
+import '../controllers/allBookingsDatabase_controller.dart';
+import '../models/booking_model.dart';
 
 class ConfirmBooking extends HookWidget {
   final int serviceIndex;
@@ -38,6 +42,7 @@ class ConfirmBooking extends HookWidget {
     var _width = MediaQuery.of(context).size.width;
     final List<Vehicle> _vehiclesForBooking = [];
     final bookedVehiclesList = useProvider(selectedVehicleListProvider);
+    final geo = Geoflutterfire();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -114,20 +119,28 @@ class ConfirmBooking extends HookWidget {
                   //     serviceDurationMins: servicesList[this.serviceIndex].serviceDurationMins, typeSpecific: this.typeSpecific,
                   //     detailingPackage: this.detailingPackage, numberofTires2Store: this.numberofTires2Store, numberOfTires2Swap: this.numberOfTires2Swap);
                   var user = context.read(authControllerProvider.state);
+
                   if (user != null) {
+                    final booking = Booking( startDate: selectedDate, startTimeHrs: startTime.hour, startTimeMins: startTime.minute, mechanicID: '', userID: user!.uid, bidID: '');// vehicles: vehicles, );
+                    Service service = Service(serviceName: servicesList[this.serviceIndex].serviceName,
+                        serviceDurationMins: servicesList[this.serviceIndex].serviceDurationMins,
+                        serviceCost: servicesList[this.serviceIndex].serviceCost,
+                        numberOfTires2Swap: this.numberOfTires2Swap,
+                        numberofTires2Store: this.numberofTires2Store,typeSpecific: this.typeSpecific, detailingPackage: this.detailingPackage );
                     if (context.read(selectedVehicleListProvider).length > 0 &&
                         context.read(selectedAddressListProvider).length == 1) {
                       //TODO: change the above. All the fields of a service cannot be populated for oil change and so on....
-                      await context.read(bookingsControllerProvider).addBooking(
-                            startDate: selectedDate,
-                            startTimeHrs: startTime.hour,
-                            startTimeMins: startTime.minute,
-                            serviceIndex: this.serviceIndex,
-                            typseSpecific: this.typeSpecific,
-                            numberOfTires2Swap: this.numberOfTires2Swap,
-                            numberofTires2Store: this.numberofTires2Store,
-                            detailingPackage: this.detailingPackage,
-                          );
+                      await context.read(allBookingsDatabaseControllerProvider).addBooking(service: service, booking: booking);
+                      // await context.read(bookingsControllerProvider).addBooking(
+                      //       startDate: selectedDate,
+                      //       startTimeHrs: startTime.hour,
+                      //       startTimeMins: startTime.minute,
+                      //       serviceIndex: this.serviceIndex,
+                      //       typseSpecific: this.typeSpecific,
+                      //       numberOfTires2Swap: this.numberOfTires2Swap,
+                      //       numberofTires2Store: this.numberofTires2Store,
+                      //       detailingPackage: this.detailingPackage,
+                      //     );
                       //vehicles: tempVehicleListForServiceProvider).then((value) => null);
                       //await db.collection("Bookings").add(widget.booking.toJason());
                       //MaterialPageRoute(builder: (context) => ConfirmBooking(typeSpecific: widget.typeSpecific, serviceIndex: widget.serviceIndex, selectedDate: selectedDate, startTime: selectedTime, detailingPackage: widget.detailingPackage, numberOfTires2Swap: widget.numberOfTires2Swap, numberofTires2Store: widget.numberofTires2Store));

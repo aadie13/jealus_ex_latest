@@ -23,9 +23,10 @@ final completedBookingsFromDatabaseListProvider =
       ref.watch(allBookingsDatabaseListFilterProvider).state;
   final bookingsListFromDatabaseState =
       ref.watch(allBookingsDatabaseControllerProvider.state);
+  final user = ref.watch(authControllerProvider.state);
   return bookingsListFromDatabaseState.maybeWhen(
       data: (bookings) {
-        return bookings.where((booking) => booking.isCompleted).toList();
+        return bookings.where((booking) => booking.isCompleted && booking.userID == user!.uid).toList();
         // switch (vehicleListFilterState) {
         //   case VehicleListFilter.selected:
         //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
@@ -41,9 +42,12 @@ final pendingBookingsFromDatabaseListProvider = Provider<List<Booking>>((ref) {
       ref.watch(allBookingsDatabaseListFilterProvider).state;
   final bookingsFromDatabaseListState =
       ref.watch(allBookingsDatabaseControllerProvider.state);
+  final usersBookingsList =
+  ref.watch(allBookingsDatabaseControllerProvider).retrieveBookings();
+  final user = ref.watch(authControllerProvider.state);
   return bookingsFromDatabaseListState.maybeWhen(
       data: (bookings) {
-        return bookings.where((booking) => !booking.isCompleted).toList();
+        return bookings.where((booking) => !booking.isCompleted && booking.userID == user!.uid).toList();// && booking.userID == user!.uid).toList();
         // switch (vehicleListFilterState) {
         //   case VehicleListFilter.selected:
         //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
@@ -72,7 +76,7 @@ class AllBookingsDatabaseController
 
   AllBookingsDatabaseController(this._read, this._userId)
       : super(AsyncValue.loading()) {
-    retrieveBookings();
+    retrieveUsersBookings();
   }
 
   Future<void> retrieveBookings({bool isRefreshing = false}) async {
@@ -87,19 +91,29 @@ class AllBookingsDatabaseController
       state = AsyncValue.error(e, st);
     }
   }
-
+  Future<void> retrieveUsersBookings({bool isRefreshing = false}) async {
+    if (isRefreshing) state = AsyncValue.loading();
+    try {
+      final bookings =
+      await _read(allBookingsDatabaseRepositoryProvider).retrieveUsersBookings(_userId!);
+      if (mounted) {
+        state = AsyncValue.data(bookings);
+      }
+    } on CustomException catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
   Future<void> addBooking({
     //should be the mechanic user
+    required Service service,
     required Booking booking,
-    required String bookingID,
   }) async {
     //required List<Vehicle> vehicles,}) async{
     try {
       // vehicles: vehicles, );
-      await _read(allBookingsDatabaseRepositoryProvider)
-          .createBooking(booking: booking, bookingID: bookingID);
+      await _read(allBookingsDatabaseRepositoryProvider).createBooking(booking: booking, service: service);
       state.whenData((bookings) => state =
-          AsyncValue.data(bookings..add(booking.copyWith(id: bookingID))));
+          AsyncValue.data(bookings..add(booking.copyWith(id: booking.id))));
     } on CustomException catch (e, st) {
       _read(allBookingsDatabaseExceptionProvider).state = e;
     }

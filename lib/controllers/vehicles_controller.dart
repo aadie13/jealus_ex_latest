@@ -106,6 +106,20 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
     }
   }
 
+  Future<void> addVehicleToABookingInAllBookingsDatabase({required String nickName, required String vehicleMake,
+    required String vehicleModel, required String vehicleYear,
+    required String engineSize, required String tireSpec, bool isBooked = false, required String bookingID}) async{
+    try {
+      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
+      final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInAllBookingsDatabase(bookingId: bookingID, vehicle: vehicle);
+      state.whenData((vehicles) =>
+      state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
+      );
+    } on CustomException catch(e, st){
+      _read(vehicleExceptionProvider).state = e;
+    }
+  }
+
 
   Future<void> updateVehicle({required Vehicle updatedVehicle}) async {
     try {

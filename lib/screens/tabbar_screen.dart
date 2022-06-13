@@ -35,30 +35,22 @@ class TabBarScreen extends HookWidget {
         onTap: (int index) => navigationIndex.value =index,
         currentIndex: navigationIndex.value,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text(
-                'Home'
-            ),
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.history),
-            title: new Text(
-                'History'
-            ),
+            icon: Icon(Icons.history),
+            label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.message),
-            title: new Text(
-                'Messages'
-            ),
+            icon: Icon(Icons.message),
+            label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.account_circle),
-            title: new Text(
-                'Profile'
-            ),
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
           ),
         ],
       ),

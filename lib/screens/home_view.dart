@@ -10,6 +10,7 @@ import 'package:jealus_ex/screens - booking service/book_detailing.dart';
 import 'package:jealus_ex/screens - booking service/book_car_inspection.dart';
 import 'package:jealus_ex/screens - booking service/book_battery_change.dart';
 
+import '../controllers/allBookingsDatabase_controller.dart';
 import 'Show_incomplete_bookings.dart';
 
 class HomeView extends HookWidget{
@@ -21,6 +22,7 @@ class HomeView extends HookWidget{
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider.state);
+    final pendingBookingsList = useProvider(pendingBookingsFromDatabaseListProvider).length;
     return Scaffold(
       // appBar: AppBar(
       //   title: Column(
@@ -116,7 +118,7 @@ class HomeView extends HookWidget{
                         padding: EdgeInsets.only(bottom: 0,top: 5, left: 10, right: 10),
                         color: Colors.white,
                         child: Text(
-                          'Upcoming Bookings',
+                          'Upcoming Bookings $pendingBookingsList',
                           style: TextStyle(color: Colors.black, fontSize: 15),
                         ),
                       ),

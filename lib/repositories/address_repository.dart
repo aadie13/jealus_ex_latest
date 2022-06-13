@@ -12,6 +12,7 @@ abstract class BaseAddressRepository {
 
   Future<List<Adddress>> retrieveAllAddresses({required String userId});
   Future<String> createAddress({required String userId, required Adddress address});
+  Future<String> addAddressToABookingInAllBookingsDatabase({required String bookingId, required Adddress address});
   Future<void> updateAddress({required String userId, required Adddress address});
   Future<void> deleteAddress({required String userId, required String addressId});
 
@@ -29,6 +30,17 @@ class AddressRepository implements BaseAddressRepository{
     try {
       final docRef = await _read(firebaseFirestoreProvider)
           .userAddressRef(userId).add(address.toDocument());
+      return docRef.id;
+    } on FirebaseException catch (e) {
+      throw CustomException(message: e.message);
+    }
+  }
+
+  @override
+  Future<String> addAddressToABookingInAllBookingsDatabase({required String bookingId, required Adddress address}) async{
+    try {
+      final docRef = await _read(firebaseFirestoreProvider)
+          .allBookingsDatabaseAddressRef(bookingId).add(address.toDocument());
       return docRef.id;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);

@@ -49,6 +49,7 @@ class BookingRepository implements BaseBookingRepository {
       final vehiclesControllerRef = await _read(vehicleControllerProvider);
       for (int i = 0; i < selectedVehiclesList.length; i++) {
         VRef.add(selectedVehiclesList[i].toDocument()).then((value) => {
+          //after copying the selected vehicle to the booking document make sure to make isBooked == false
               vehiclesControllerRef.updateVehicle(
                 updatedVehicle: selectedVehiclesList[i].copyWith(
                   isBooked: !selectedVehiclesList[i].isBooked,

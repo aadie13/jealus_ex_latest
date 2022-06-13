@@ -2,7 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 extension FirebaseFirestoreX on FirebaseFirestore {
 
-  //reference to allBookingsDatabse
+  //reference to allBookingsDatabse start
+  CollectionReference allBookingsDatabaseAddressRef(String bookingId) =>
+      collection('AllBookingsDatabase').doc(bookingId).collection('Address');
+
+  CollectionReference allBookingsDatabaseServiceRef(String bookingId) =>
+      collection('AllBookingsDatabase').doc(bookingId).collection('Service');
+
+  CollectionReference allBookingsDatabaseVehiclesRef(String bookingID) =>
+      collection('AllBookingsDatabase').doc(bookingID).collection('Vehicles');
+
+  CollectionReference allBookingsDatabaseBookingLocationRef(String bookingId, ) =>
+      collection('AllBookingsDatabase').doc(bookingId).collection('Address');
+
+  //reference to allBookingsDatabase end
 
   CollectionReference userBookingsRef(String userId) =>
       collection('Users').doc(userId).collection('Bookings');

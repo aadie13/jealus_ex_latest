@@ -85,6 +85,20 @@ class UsersBookingServiceController extends StateNotifier<AsyncValue<List<Servic
     }
   }
 
+  Future<void> addServicetoABookingInAllBookingsDatabase({required Service service, required String bookingID}) async{
+    try {
+      // final service = Service(serviceName: serviceName, serviceCost: serviceCost,
+      //     serviceDurationMins: serviceDurationMins, typeSpecific: typeSpecific,
+      //     numberOfTires2Swap: numberOfTires2Swap,
+      //     numberofTires2Store: numberofTires2Store, isCurrent: isCurrent);
+      final serviceID = await _read(usersBookingServiceRepositoryProvider).addServicetoBookingInAllBookingsDatabase(bookingID: bookingID, service: service);
+      state.whenData((services) =>
+      state = AsyncValue.data(services..add(service.copyWith(id: serviceID)))
+      );
+    } on CustomException catch(e, st){
+      _read(usersBookingServiceExceptionProvider).state = e;
+    }
+  }
   Future<void> updateService({required Service updatedService, required String bookingID}) async {
     try {
       await _read(usersBookingServiceRepositoryProvider).updateService(userID: _userId!, bookingID: bookingID, service: updatedService);
