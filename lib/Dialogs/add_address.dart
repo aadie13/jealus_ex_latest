@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:jealus_ex/controllers/address_controller.dart';
 import 'package:jealus_ex/models/address.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,6 +23,7 @@ class AddAddressDialog extends HookWidget {
   bool get isUpdating => address.id != null;
   @override
   Widget build(BuildContext context) {
+    final geo = Geoflutterfire();
     final fullAddress = useTextEditingController(text: address.placeFormattedAddress);
     final placeName = useTextEditingController(text: address.placeName);
     final latitude = useTextEditingController();
@@ -62,11 +64,13 @@ class AddAddressDialog extends HookWidget {
                       : Theme.of(context).primaryColor,
                 ),
                 onPressed: () async{
+
                   List<Location> locations = await locationFromAddress(fullAddress.text);
                   // var addresses = await Geocoder.local.findAddressesFromQuery(fullAddress.text.trim());
                   // var first = addresses.first;
                   print(locations.first);
                   var firstLocation = locations.first;
+                  GeoFirePoint center = geo.point(latitude: firstLocation.latitude, longitude: firstLocation.longitude);
                   isUpdating
                       ? context.read(addressControllerProvider)
                       .updateAddress(
@@ -87,7 +91,8 @@ class AddAddressDialog extends HookWidget {
                       .addAddress(placeFormattedAddress: fullAddress.text.trim(),
                       placeName: placeName.text.trim(), latitude: firstLocation.latitude,
                       longitude: firstLocation.longitude,
-                      addressType: addressType.text.trim());
+                      addressType: addressType.text.trim(),
+                  );
                   Navigator.of(context).pop();
                   Fluttertoast.showToast(msg: " New Address Added!");
                   print("New +Address Added!");

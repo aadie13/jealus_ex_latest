@@ -158,7 +158,7 @@ class AllBookingsDatabaseRepository implements BaseAllBookingsDatabaseRepository
   Future<List<Booking>> retrieveUsersBookings(String userID) async {
     try {
       final snap =
-          await _read(firebaseFirestoreProvider).collection('AllBookingsDatabase').where('userID', isEqualTo: userID).get();
+          await _read(firebaseFirestoreProvider).collection('AllBookingsDatabase').where('userID', isEqualTo: userID).where('isCompleted', isEqualTo: false).get();
       return snap.docs.map((doc) => Booking.fromDocument(doc)).toList();
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);

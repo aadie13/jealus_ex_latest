@@ -27,7 +27,8 @@ class _$AdddressTearOff {
       required double latitude,
       required double longitude,
       required String addressType,
-      bool isServiceLocation = false}) {
+      bool isServiceLocation = false,
+      bool isMainGarage = false}) {
     return _Adddress(
       id: id,
       placeFormattedAddress: placeFormattedAddress,
@@ -36,6 +37,7 @@ class _$AdddressTearOff {
       longitude: longitude,
       addressType: addressType,
       isServiceLocation: isServiceLocation,
+      isMainGarage: isMainGarage,
     );
   }
 
@@ -56,6 +58,7 @@ mixin _$Adddress {
   double get longitude => throw _privateConstructorUsedError;
   String get addressType => throw _privateConstructorUsedError;
   bool get isServiceLocation => throw _privateConstructorUsedError;
+  bool get isMainGarage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -74,7 +77,8 @@ abstract class $AdddressCopyWith<$Res> {
       double latitude,
       double longitude,
       String addressType,
-      bool isServiceLocation});
+      bool isServiceLocation,
+      bool isMainGarage});
 }
 
 /// @nodoc
@@ -94,6 +98,7 @@ class _$AdddressCopyWithImpl<$Res> implements $AdddressCopyWith<$Res> {
     Object? longitude = freezed,
     Object? addressType = freezed,
     Object? isServiceLocation = freezed,
+    Object? isMainGarage = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -124,6 +129,10 @@ class _$AdddressCopyWithImpl<$Res> implements $AdddressCopyWith<$Res> {
           ? _value.isServiceLocation
           : isServiceLocation // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMainGarage: isMainGarage == freezed
+          ? _value.isMainGarage
+          : isMainGarage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -140,7 +149,8 @@ abstract class _$AdddressCopyWith<$Res> implements $AdddressCopyWith<$Res> {
       double latitude,
       double longitude,
       String addressType,
-      bool isServiceLocation});
+      bool isServiceLocation,
+      bool isMainGarage});
 }
 
 /// @nodoc
@@ -161,6 +171,7 @@ class __$AdddressCopyWithImpl<$Res> extends _$AdddressCopyWithImpl<$Res>
     Object? longitude = freezed,
     Object? addressType = freezed,
     Object? isServiceLocation = freezed,
+    Object? isMainGarage = freezed,
   }) {
     return _then(_Adddress(
       id: id == freezed
@@ -191,6 +202,10 @@ class __$AdddressCopyWithImpl<$Res> extends _$AdddressCopyWithImpl<$Res>
           ? _value.isServiceLocation
           : isServiceLocation // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMainGarage: isMainGarage == freezed
+          ? _value.isMainGarage
+          : isMainGarage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -205,7 +220,8 @@ class _$_Adddress extends _Adddress {
       required this.latitude,
       required this.longitude,
       required this.addressType,
-      this.isServiceLocation = false})
+      this.isServiceLocation = false,
+      this.isMainGarage = false})
       : super._();
 
   factory _$_Adddress.fromJson(Map<String, dynamic> json) =>
@@ -226,10 +242,13 @@ class _$_Adddress extends _Adddress {
   @JsonKey(defaultValue: false)
   @override
   final bool isServiceLocation;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isMainGarage;
 
   @override
   String toString() {
-    return 'Adddress(id: $id, placeFormattedAddress: $placeFormattedAddress, placeName: $placeName, latitude: $latitude, longitude: $longitude, addressType: $addressType, isServiceLocation: $isServiceLocation)';
+    return 'Adddress(id: $id, placeFormattedAddress: $placeFormattedAddress, placeName: $placeName, latitude: $latitude, longitude: $longitude, addressType: $addressType, isServiceLocation: $isServiceLocation, isMainGarage: $isMainGarage)';
   }
 
   @override
@@ -255,7 +274,10 @@ class _$_Adddress extends _Adddress {
                     .equals(other.addressType, addressType)) &&
             (identical(other.isServiceLocation, isServiceLocation) ||
                 const DeepCollectionEquality()
-                    .equals(other.isServiceLocation, isServiceLocation)));
+                    .equals(other.isServiceLocation, isServiceLocation)) &&
+            (identical(other.isMainGarage, isMainGarage) ||
+                const DeepCollectionEquality()
+                    .equals(other.isMainGarage, isMainGarage)));
   }
 
   @override
@@ -267,7 +289,8 @@ class _$_Adddress extends _Adddress {
       const DeepCollectionEquality().hash(latitude) ^
       const DeepCollectionEquality().hash(longitude) ^
       const DeepCollectionEquality().hash(addressType) ^
-      const DeepCollectionEquality().hash(isServiceLocation);
+      const DeepCollectionEquality().hash(isServiceLocation) ^
+      const DeepCollectionEquality().hash(isMainGarage);
 
   @JsonKey(ignore: true)
   @override
@@ -288,7 +311,8 @@ abstract class _Adddress extends Adddress {
       required double latitude,
       required double longitude,
       required String addressType,
-      bool isServiceLocation}) = _$_Adddress;
+      bool isServiceLocation,
+      bool isMainGarage}) = _$_Adddress;
   const _Adddress._() : super._();
 
   factory _Adddress.fromJson(Map<String, dynamic> json) = _$_Adddress.fromJson;
@@ -307,6 +331,8 @@ abstract class _Adddress extends Adddress {
   String get addressType => throw _privateConstructorUsedError;
   @override
   bool get isServiceLocation => throw _privateConstructorUsedError;
+  @override
+  bool get isMainGarage => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AdddressCopyWith<_Adddress> get copyWith =>

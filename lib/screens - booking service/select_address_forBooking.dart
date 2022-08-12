@@ -32,6 +32,7 @@ class SelectAddressToBook extends HookWidget {
       useProvider(selectedAddressListProvider).length == 1;
   @override
   Widget build(BuildContext context) {
+    final adresseslength = context.read(addressListProvider).length;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -62,7 +63,7 @@ class SelectAddressToBook extends HookWidget {
                               bottom: 0, top: 5, left: 10, right: 10),
                           color: Colors.white,
                           child: Text(
-                            'Select a Location for this Booking',
+                            'Select a Location for this Booking $adresseslength',
                             style: TextStyle(color: Colors.black, fontSize: 20),
                           ),
                         ),

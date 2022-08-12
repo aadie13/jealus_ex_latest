@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 //************************************************************//
 part 'address.g.dart';
 part 'address.freezed.dart';
@@ -16,6 +17,7 @@ abstract class Adddress implements _$Adddress {
     required double longitude,
     required String addressType,
     @Default(false) bool isServiceLocation,
+    @Default(false) bool isMainGarage,
 
   }) = _Adddress;
 

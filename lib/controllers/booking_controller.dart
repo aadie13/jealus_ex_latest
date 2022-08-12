@@ -6,6 +6,7 @@ import 'package:jealus_ex/models/booking_model.dart';
 import 'package:jealus_ex/custom_exception.dart';
 import 'package:jealus_ex/repositories/booking_repository.dart';
 import 'package:jealus_ex/controllers/allBookingsDatabase_controller.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 enum BookingsListFilter {
   all,
@@ -84,6 +85,8 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
     required int startTimeHrs,
     required int startTimeMins,
     required int serviceIndex,
+    required double latitude,
+    required double longitude,
     String? typseSpecific,
     int? numberOfTires2Swap,
     int? numberofTires2Store,
@@ -91,13 +94,15 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
   }) async {
     //required List<Vehicle> vehicles,}) async{
     try {
+      final geo = Geoflutterfire();
+      GeoFirePoint center = geo.point(latitude: latitude, longitude: longitude);
       final booking = Booking(
           startDate: startDate,
           startTimeHrs: startTimeHrs,
           startTimeMins: startTimeMins,
           mechanicID: '',
           bidID: '',
-          userID: _userId!); // vehicles: vehicles, );
+          userID: _userId!, center: center);//, center: center); // vehicles: vehicles, );
       final bookingID = await _read(bookingsRepositoryProvider)
           .createBooking(userId: _userId!, booking: booking);
       final usersBookingsService =

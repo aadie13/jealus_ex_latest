@@ -105,14 +105,13 @@ class AddressController extends StateNotifier<AsyncValue<List<Adddress>>> {
       bool isServiceLocation = false,
       required String bookingID}) async {
     try {
-      final geo = Geoflutterfire();
       final address = Adddress(
           placeFormattedAddress: placeFormattedAddress,
           placeName: placeName,
           latitude: latitude,
           longitude: longitude,
           isServiceLocation: isServiceLocation,
-          addressType: addressType);
+          addressType: addressType,);
       final addressID = await _read(addressRepositoryProvider)
           .addAddressToABookingInAllBookingsDatabase(
               bookingId: bookingID, address: address);

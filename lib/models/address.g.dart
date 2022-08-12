@@ -15,6 +15,7 @@ _$_Adddress _$_$_AdddressFromJson(Map<String, dynamic> json) {
     longitude: (json['longitude'] as num).toDouble(),
     addressType: json['addressType'] as String,
     isServiceLocation: json['isServiceLocation'] as bool? ?? false,
+    isMainGarage: json['isMainGarage'] as bool? ?? false,
   );
 }
 
@@ -27,4 +28,5 @@ Map<String, dynamic> _$_$_AdddressToJson(_$_Adddress instance) =>
       'longitude': instance.longitude,
       'addressType': instance.addressType,
       'isServiceLocation': instance.isServiceLocation,
+      'isMainGarage': instance.isMainGarage,
     };

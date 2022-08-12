@@ -43,8 +43,6 @@ class AddressRepository implements BaseAddressRepository{
       final geo = Geoflutterfire();
       final docRef = await _read(firebaseFirestoreProvider)
           .allBookingsDatabaseAddressRef(bookingId).add(address.toDocument());
-      GeoFirePoint bookingLocation = geo.point(latitude: address.latitude, longitude: address.longitude);
-      await _read(firebaseFirestoreProvider).allBookingsDatabaseAddressGeoRef(bookingId, docRef.id).add(bookingLocation.data);
       return docRef.id;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);
@@ -87,7 +85,56 @@ class AddressRepository implements BaseAddressRepository{
       throw CustomException(message: e.message);
     }
   }
+//commmment
+  @override
+  Future<Adddress> retrieveServiceAddress({required String userId}) async{
+    try {
+      final snap = await _read(firebaseFirestoreProvider)
+          .mechanicsAddressRef(userId)
+          .get();
+      List<Adddress> theList = snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+      return theList.firstWhere((element) => element.isServiceLocation);
+      //return snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw CustomException(message: e.message);
+    }
+  }
 
+  @override
+  Future<double> retrieveServiceAddressLattitude({required String userId}) async{
+    try {
+      final snap = await _read(firebaseFirestoreProvider)
+          .mechanicsAddressRef(userId)
+          .get();
+      List<Adddress> theList = [];
+      final somelist = await snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+      theList.addAll(somelist);
+      final radius = await somelist.firstWhere((element) => element.isMainGarage).latitude;
+      return radius;
+      //return snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw CustomException(message: e.message);
+    }
+  }
+
+  @override
+  Future<double> retrieveServiceAddressLongitude({required String userId}) async{
+    try {
+      final snap = await _read(firebaseFirestoreProvider)
+          .mechanicsAddressRef(userId)
+          .get();
+      List<Adddress> theList = [];
+      final somelist = await snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+      theList.addAll(somelist);
+      final radius = await somelist.firstWhere((element) => element.isMainGarage).longitude;
+      return radius;
+      //return snap.docs.map((doc) => Adddress.fromDocument(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw CustomException(message: e.message);
+    }
+  }
+
+//comment
 
 }
 

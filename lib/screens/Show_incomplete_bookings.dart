@@ -17,7 +17,7 @@ class IncompleteBookingsList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pendingBookingsList = useProvider(pendingBookingsFromDatabaseListProvider);
+    final pendingBookingsList = useProvider(allBookingsDatabaseControllerProvider).retrieveUsersBookings();
     final bookingsListState = useProvider(allBookingsDatabaseControllerProvider.state);
     return bookingsListState.when(
       data: (bookings) => bookings.isEmpty
@@ -28,9 +28,9 @@ class IncompleteBookingsList extends HookWidget {
         ),
       )
           : ListView.builder(
-          itemCount: pendingBookingsList.length,
+          itemCount: bookings.length,
           itemBuilder: (BuildContext context, int index) {
-            final booking = pendingBookingsList[index];
+            final booking = bookings[index];
             return ProviderScope(
               overrides: [currentBooking.overrideWithValue(booking)],
               child: const BookingTile(),

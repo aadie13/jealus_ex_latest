@@ -6,8 +6,8 @@ extension FirebaseFirestoreX on FirebaseFirestore {
   CollectionReference allBookingsDatabaseAddressRef(String bookingId) =>
       collection('AllBookingsDatabase').doc(bookingId).collection('Address');
 
-  CollectionReference allBookingsDatabaseAddressGeoRef(String bookingId, String AddressID) =>
-      collection('AllBookingsDatabase').doc(bookingId).collection('Address').doc(AddressID).collection('Location');
+  CollectionReference allBookingsDatabaseAddressGeoRef(String bookingId) =>
+      collection('AllBookingsDatabase').doc(bookingId).collection('Geo');//To add the geoFire Point
 
   CollectionReference allBookingsDatabaseServiceRef(String bookingId) =>
       collection('AllBookingsDatabase').doc(bookingId).collection('Service');
@@ -37,6 +37,13 @@ extension FirebaseFirestoreX on FirebaseFirestore {
 
   CollectionReference userAddressRef(String userId) =>
       collection('Users').doc(userId).collection('Addresses');
+
+  //FOR MECHANICS
+  CollectionReference mechServicesRef(String userId) =>
+      collection('Mechanics').doc(userId).collection('Services');
+
+  CollectionReference mechanicsAddressRef(String userId) =>
+      collection('Mechanics').doc(userId).collection('Addresses');
 
 
 }
