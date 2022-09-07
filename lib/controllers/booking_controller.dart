@@ -91,6 +91,7 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
     int? numberOfTires2Swap,
     int? numberofTires2Store,
     String? detailingPackage,
+    required Service service
   }) async {
     //required List<Vehicle> vehicles,}) async{
     try {
@@ -103,8 +104,7 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
           mechanicID: '',
           bidID: '',
           userID: _userId!, center: center);//, center: center); // vehicles: vehicles, );
-      final bookingID = await _read(bookingsRepositoryProvider)
-          .createBooking(userId: _userId!, booking: booking);
+
       final usersBookingsService =
           await _read(usersBookingServiceControllerProvider);
       final allBookingsDatabase =
@@ -115,6 +115,8 @@ class BookingsController extends StateNotifier<AsyncValue<List<Booking>>> {
       serviceCost: servicesList[serviceIndex].serviceCost,
       numberOfTires2Swap: numberOfTires2Swap,
         numberofTires2Store: numberofTires2Store,typeSpecific: typseSpecific, detailingPackage: detailingPackage );
+      final bookingID = await _read(bookingsRepositoryProvider)
+          .createBooking(userId: _userId!, booking: booking, service: service);
       usersBookingsService.addService(service: service, bookingID: bookingID);
       //allBookingsDatabase.addBooking(booking: booking, bookingID: bookingID);
       state.whenData((bookings) => state =

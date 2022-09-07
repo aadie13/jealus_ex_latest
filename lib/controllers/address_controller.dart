@@ -55,15 +55,15 @@ class AddressController extends StateNotifier<AsyncValue<List<Adddress>>> {
 
   AddressController(this._read, this._userId) : super(AsyncValue.loading()) {
     if (_userId != null) {
-      retrieveAllAddresses();
+      retrieveUsersAddresses();
     }
   }
 
-  Future<void> retrieveAllAddresses({bool isRefreshing = false}) async {
+  Future<void> retrieveUsersAddresses({bool isRefreshing = false}) async {
     if (isRefreshing) state = AsyncValue.loading();
     try {
       final address = await _read(addressRepositoryProvider)
-          .retrieveAllAddresses(userId: _userId!);
+          .retrieveUsersAddresses(userID: _userId!);
       if (mounted) {
         state = AsyncValue.data(address);
       }
@@ -96,31 +96,39 @@ class AddressController extends StateNotifier<AsyncValue<List<Adddress>>> {
     }
   }
 
-  Future<void> addAddressToABookingInAllBookingsDatabase(
-      {required String placeFormattedAddress,
-      required String placeName,
-      required double latitude,
-      required double longitude,
-      required String addressType,
-      bool isServiceLocation = false,
-      required String bookingID}) async {
-    try {
-      final address = Adddress(
-          placeFormattedAddress: placeFormattedAddress,
-          placeName: placeName,
-          latitude: latitude,
-          longitude: longitude,
-          isServiceLocation: isServiceLocation,
-          addressType: addressType,);
-      final addressID = await _read(addressRepositoryProvider)
-          .addAddressToABookingInAllBookingsDatabase(
-              bookingId: bookingID, address: address);
-      state.whenData((addresses) => state =
-          AsyncValue.data(addresses..add(address.copyWith(id: addressID))));
-    } on CustomException catch (e, st) {
-      _read(addressExceptionProvider).state = e;
-    }
-  }
+  // Future<void> addAddressToABookingInAllBookingsDatabase(
+  //     {required Adddress address,
+  //     required String bookingID}) async {
+  //   try {
+  //     // final address = Adddress(
+  //     //     placeFormattedAddress: placeFormattedAddress,
+  //     //     placeName: placeName,
+  //     //     latitude: latitude,
+  //     //     longitude: longitude,
+  //     //     isServiceLocation: isServiceLocation,
+  //     //     addressType: addressType,);
+  //     final addressID = await _read(addressRepositoryProvider)
+  //         .addAddressToABookingInAllBookingsDatabase(
+  //             bookingId: bookingID, address: address);
+  //     state.whenData((addresses) => state =
+  //         AsyncValue.data(addresses..add(address.copyWith(id: addressID))));
+  //   } on CustomException catch (e, st) {
+  //     _read(addressExceptionProvider).state = e;
+  //   }
+  // }
+  //
+  // Future<void> addAddressToABookingInUsersBookingsCollection(
+  //     {required Adddress address,
+  //       required String bookingID}) async {
+  //   try {
+  //
+  //     final addressID = await _read(addressRepositoryProvider).addAddressToABookingInUsersBookingsCollection(bookingID: bookingID, address: address, userId: _userId!);
+  //     state.whenData((addresses) => state =
+  //         AsyncValue.data(addresses..add(address.copyWith(id: addressID))));
+  //   } on CustomException catch (e, st) {
+  //     _read(addressExceptionProvider).state = e;
+  //   }
+  // }
 
   Future<void> updateAddress({required Adddress updatedAddress}) async {
     try {

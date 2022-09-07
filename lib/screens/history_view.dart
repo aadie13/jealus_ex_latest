@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
 import 'package:jealus_ex/controllers/booking_controller.dart';
 import 'package:jealus_ex/models/booking_model.dart';
-import 'package:jealus_ex/screens/show_completed_bookings.dart';
+import 'package:jealus_ex/Archive/show_completed_bookings_archive.dart';
 
 import '../custom_exception.dart';
 
@@ -35,7 +35,7 @@ class HistoryView extends HookWidget{
           children: [
             Container(
               height: 500,
-                child: CompletedBookingsList()),
+                child: CompletedBookingsListArchive()),
           ],
         ),
       ),

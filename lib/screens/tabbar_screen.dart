@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jealus_ex/controllers/auth_controller.dart';
+import 'package:jealus_ex/screens/show_pending_bookings_temp.dart';
 //************************************************************//
 import 'history_view.dart';
 import 'messages_view.dart';
@@ -9,7 +10,7 @@ import 'profle_view.dart';
 import 'home_view.dart';
 
 class TabBarScreen extends HookWidget {
-  List<Widget> _pageList = [HomeView(), HistoryView(), MessagesView(), ProfileView()];
+  List<Widget> _pageList = [HomeView(),PendingBookingsList(), HistoryView(), MessagesView(), ProfileView()];
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider.state);
@@ -39,6 +40,10 @@ class TabBarScreen extends HookWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pending_outlined),//.timeline_rounded),//.pending_actions_sharp),
+            label: 'Tasks',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

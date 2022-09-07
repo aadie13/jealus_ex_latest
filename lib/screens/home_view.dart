@@ -9,9 +9,10 @@ import 'package:jealus_ex/screens - booking service/book_tire_change.dart';
 import 'package:jealus_ex/screens - booking service/book_detailing.dart';
 import 'package:jealus_ex/screens - booking service/book_car_inspection.dart';
 import 'package:jealus_ex/screens - booking service/book_battery_change.dart';
+import 'package:jealus_ex/screens/show_upcoming_bookings.dart';
 
 import '../controllers/allBookingsDatabase_controller.dart';
-import 'Show_incomplete_bookings.dart';
+import '../Archive/Show_accepted_bookings_archive.dart';
 
 class HomeView extends HookWidget{
   //final List<String> services4customer = ["Oil Change","Tire Swap","Detailing","Cleaning","Inspection Only"];
@@ -22,7 +23,7 @@ class HomeView extends HookWidget{
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider.state);
-    final pendingBookingsList = useProvider(pendingBookingsFromDatabaseListProvider).length;
+    final pendingBookingsList = useProvider(upcomingBookingsFromDatabaseListProvider).length;
     return Scaffold(
       // appBar: AppBar(
       //   title: Column(
@@ -108,7 +109,7 @@ class HomeView extends HookWidget{
                       decoration: BoxDecoration(border: Border.all(color: Colors.blue, width: 1), ),
                       child: Padding(
                         padding: const EdgeInsets.only(top:10),
-                        child: IncompleteBookingsList(),
+                        child: AcceptedBookingsList(),
                       ),
                     ),
                     Positioned(

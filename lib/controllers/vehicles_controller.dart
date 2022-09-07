@@ -70,7 +70,7 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
   Future<void> retrieveVehicles({bool isRefreshing = false}) async{
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final vehicle = await _read(vehicleRepositoryProvider).retrieveVehicles(userId: _userId!);
+      final vehicle = await _read(vehicleRepositoryProvider).retrieveUsersVehicles(userID: _userId!);
       if (mounted){
         state = AsyncValue.data(vehicle);
       }
@@ -79,51 +79,49 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
     }
   }
 
-  // Future<void> retrieveBookedVehicles({bool isRefreshing = false}) async{
-  //   if (isRefreshing) state = AsyncValue.loading();
+
+  Future<void> addVehicle({required Vehicle vehicle}) async{
+    try {
+      //final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
+      final vehicleID = await _read(vehicleRepositoryProvider).createUsersVehicle(userID: _userId!, vehicle: vehicle);
+      state.whenData((vehicles) =>
+      state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
+      );
+    } on CustomException catch(e, st){
+      _read(vehicleExceptionProvider).state = e;
+    }
+  }
+
+  // Future<void> addVehicleToABookingInAllBookingsDatabase({required Vehicle vehicle,  required String bookingID}) async{
   //   try {
-  //     final vehicle = await _read(vehicleRepositoryProvider).retrieveBookedVehicles(userId: _userId!);
-  //     if (mounted){
-  //       state = AsyncValue.data(vehicle);
-  //     }
+  //     //final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
+  //     //final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInUsersBookingsCollection(bookingID: bookingID, vehicle: vehicle, userId: _userId!);
+  //     final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInAllBookingsDatabase(bookingId: bookingID, vehicle: vehicle);
+  //     state.whenData((vehicles) =>
+  //     state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
+  //     );
   //   } on CustomException catch(e, st){
-  //     state = AsyncValue.error(e, st);
+  //     _read(vehicleExceptionProvider).state = e;
+  //   }
+  // }
+  //
+  //
+  // Future<void> addVehicleToABookingInUsersBookingsCollection({required Vehicle vehicle,  required String bookingID}) async{
+  //   try {
+  //     //final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
+  //     final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInUsersBookingsCollection(bookingID: bookingID, vehicle: vehicle, userId: _userId!);
+  //     //final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInAllBookingsDatabase(bookingId: bookingID, vehicle: vehicle);
+  //     state.whenData((vehicles) =>
+  //     state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
+  //     );
+  //   } on CustomException catch(e, st){
+  //     _read(vehicleExceptionProvider).state = e;
   //   }
   // }
 
-
-  Future<void> addVehicle({required String nickName, required String vehicleMake,
-    required String vehicleModel, required String vehicleYear,
-    required String engineSize, required String tireSpec, bool isBooked = false}) async{
-    try {
-      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
-      final vehicleID = await _read(vehicleRepositoryProvider).createVehicle(userId: _userId!, vehicle: vehicle);
-      state.whenData((vehicles) =>
-      state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
-      );
-    } on CustomException catch(e, st){
-      _read(vehicleExceptionProvider).state = e;
-    }
-  }
-
-  Future<void> addVehicleToABookingInAllBookingsDatabase({required String nickName, required String vehicleMake,
-    required String vehicleModel, required String vehicleYear,
-    required String engineSize, required String tireSpec, bool isBooked = false, required String bookingID}) async{
-    try {
-      final vehicle = Vehicle(vehicleMake: vehicleMake, vehicleModel: vehicleModel, vehicleYear: vehicleYear, engineSize: engineSize, tireSpec: tireSpec, nickName: nickName, isBooked: isBooked);
-      final vehicleID = await _read(vehicleRepositoryProvider).addVehicleToABookingInAllBookingsDatabase(bookingId: bookingID, vehicle: vehicle);
-      state.whenData((vehicles) =>
-      state = AsyncValue.data(vehicles..add(vehicle.copyWith(id: vehicleID)))
-      );
-    } on CustomException catch(e, st){
-      _read(vehicleExceptionProvider).state = e;
-    }
-  }
-
-
   Future<void> updateVehicle({required Vehicle updatedVehicle}) async {
     try {
-      await _read(vehicleRepositoryProvider).updateVehicle(userId: _userId!, vehicle: updatedVehicle);
+      await _read(vehicleRepositoryProvider).updateVehicle(userID: _userId!, vehicle: updatedVehicle);
       state.whenData((vehicles) {
         state = AsyncValue.data([
           for (final vehicle in vehicles)
@@ -137,7 +135,7 @@ class VehicleController extends StateNotifier<AsyncValue<List<Vehicle>>> {
 
   Future<void> deleteVehicle({required String vehicleId}) async {
     try {
-      await _read(vehicleRepositoryProvider).deleteVehicle(userId: _userId!, vehicleId: vehicleId);
+      await _read(vehicleRepositoryProvider).deleteVehicle(userID: _userId!, vehicleID: vehicleId);
       state.whenData((vehicles) =>
       state = AsyncValue.data(vehicles..removeWhere((element) => element.id == vehicleId))
       );

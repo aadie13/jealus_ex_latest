@@ -87,7 +87,7 @@ class AddressListError extends StatelessWidget {
           ElevatedButton(
             onPressed: () => context
                 .read(addressControllerProvider)
-                .retrieveAllAddresses(isRefreshing: true),
+                .retrieveUsersAddresses(isRefreshing: true),
             child: const Text('Retry'),
           )
         ],

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,38 +9,40 @@ import '../controllers/allBookingsDatabase_controller.dart';
 import '../custom_exception.dart';
 
 final currentBooking =
-ScopedProvider<Booking>((_) => throw UnimplementedError());
+    ScopedProvider<Booking>((_) => throw UnimplementedError());
 
-class IncompleteBookingsList extends HookWidget {
-  const IncompleteBookingsList({Key? key}) : super(key: key);
+class AcceptedBookingsListArchive extends HookWidget {
+  const AcceptedBookingsListArchive({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final pendingBookingsList = useProvider(allBookingsDatabaseControllerProvider).retrieveUsersBookings();
-    final bookingsListState = useProvider(allBookingsDatabaseControllerProvider.state);
+    final pendingBookingsList =
+        useProvider(upcomingBookingsFromDatabaseListProvider);
+    final bookingsListState =
+        useProvider(allBookingsDatabaseControllerProvider.state);
     return bookingsListState.when(
       data: (bookings) => bookings.isEmpty
           ? const Center(
-        child: Text(
-          'No Bookings Created',
-          style: TextStyle(fontSize: 20.0),
-        ),
-      )
+              child: Text(
+                'No Bookings Created',
+                style: TextStyle(fontSize: 20.0),
+              ),
+            )
           : ListView.builder(
-          itemCount: bookings.length,
-          itemBuilder: (BuildContext context, int index) {
-            final booking = bookings[index];
-            return ProviderScope(
-              overrides: [currentBooking.overrideWithValue(booking)],
-              child: const BookingTile(),
-            );
-          }),
+              itemCount: bookings.length,
+              itemBuilder: (BuildContext context, int index) {
+                final booking = bookings[index];
+                return ProviderScope(
+                  overrides: [currentBooking.overrideWithValue(booking)],
+                  child: const BookingTile(),
+                );
+              }),
       loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
       error: (error, _) => BookingsListError(
         message:
-        error is CustomException ? error.message! : 'Something went wrong!',
+            error is CustomException ? error.message! : 'Something went wrong!',
       ),
     );
   }
@@ -50,12 +51,11 @@ class IncompleteBookingsList extends HookWidget {
 class BookingTile extends HookWidget {
   const BookingTile({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     final item = useProvider(currentBooking);
     return Dismissible(
-      key: UniqueKey(),//Key(item.id!),
+      key: UniqueKey(), //Key(item.id!),
       onDismissed: (direction) {
         context
             .read(allBookingsDatabaseControllerProvider)
@@ -81,7 +81,11 @@ class BookingTile extends HookWidget {
               ),
               Spacer(),
               Text(
-                item.startDate.year.toString() + '-' +  item.startDate.month.toString() + '-' + item.startDate.day.toString(),
+                item.startDate.year.toString() +
+                    '-' +
+                    item.startDate.month.toString() +
+                    '-' +
+                    item.startDate.day.toString(),
                 style: TextStyle(fontSize: 18),
               ),
             ],
@@ -91,12 +95,14 @@ class BookingTile extends HookWidget {
             child: new Row(
               children: [
                 Text(
-                  'Time (hrs:min)  ' ,
+                  'Time (hrs:min)  ',
                   style: TextStyle(fontSize: 18),
                 ),
                 Spacer(),
                 Text(
-                  item.startTimeHrs.toString() + ':' +  item.startTimeMins.toString() ,
+                  item.startTimeHrs.toString() +
+                      ':' +
+                      item.startTimeMins.toString(),
                   style: TextStyle(fontSize: 18),
                 ),
               ],
@@ -106,8 +112,8 @@ class BookingTile extends HookWidget {
           onLongPress: () => context //TODO:
               .read(allBookingsDatabaseControllerProvider)
               .updateBooking(
-              updatedBooking:
-              item.copyWith(isCompleted: !item.isCompleted)),
+                  updatedBooking:
+                      item.copyWith(isCompleted: !item.isCompleted)),
         ),
       ),
     );

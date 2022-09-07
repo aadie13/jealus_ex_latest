@@ -15,21 +15,20 @@ extension FirebaseFirestoreX on FirebaseFirestore {
   CollectionReference allBookingsDatabaseVehiclesRef(String bookingID) =>
       collection('AllBookingsDatabase').doc(bookingID).collection('Vehicles');
 
-  CollectionReference allBookingsDatabaseBookingLocationRef(String bookingId, ) =>
-      collection('AllBookingsDatabase').doc(bookingId).collection('Address');
+
 
   //reference to allBookingsDatabase end
 
   CollectionReference userBookingsRef(String userId) =>
       collection('Users').doc(userId).collection('Bookings');
 
-  CollectionReference userBookedVehiclesRef(String userId, String bookingID) =>
+  CollectionReference userBookingRefToAddVehicles(String userId, String bookingID) =>
       collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Vehicles');
 
   CollectionReference userBookingsServiceRef(String userId, String bookingID) =>
       collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Service');
 
-  CollectionReference userBookedAddressRef(String userId, String bookingID) =>
+  CollectionReference userBookingRefToAddAddress(String userId, String bookingID) =>
       collection('Users').doc(userId).collection('Bookings').doc(bookingID).collection('Address');
 
   CollectionReference userVehicleRef(String userId) =>
@@ -44,6 +43,10 @@ extension FirebaseFirestoreX on FirebaseFirestore {
 
   CollectionReference mechanicsAddressRef(String userId) =>
       collection('Mechanics').doc(userId).collection('Addresses');
+
+  //FOR BIDS to be added to the bookings
+  CollectionReference bidsForThisBooking(String bookingID) =>
+      collection('AllBookingsDatabase').doc(bookingID).collection('Bids');
 
 
 }

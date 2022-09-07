@@ -26,7 +26,24 @@ final completedBookingsFromDatabaseListProvider =
   final user = ref.watch(authControllerProvider.state);
   return bookingsListFromDatabaseState.maybeWhen(
       data: (bookings) {
-        return bookings.where((booking) => booking.isCompleted && booking.userID == user!.uid).toList();
+        return bookings.where((booking) => booking.isCompleted ).toList();//&& booking.userID == user!.uid).toList();
+        // switch (vehicleListFilterState) {
+        //   case VehicleListFilter.selected:
+        //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
+        //   default:
+        //     return vehicles;
+        // }
+      },
+      orElse: () => []);
+});
+
+final upcomingBookingsFromDatabaseListProvider = Provider<List<Booking>>((ref) {
+
+  final bookingsFromDatabaseListState =
+      ref.watch(allBookingsDatabaseControllerProvider.state);
+  return bookingsFromDatabaseListState.maybeWhen(
+      data: (bookings) {
+        return bookings.where((booking) => !(booking.isCompleted) && booking.isAccepted).toList();//&& booking.userID == user!.uid && booking.isAccepted).toList();// && booking.userID == user!.uid).toList();
         // switch (vehicleListFilterState) {
         //   case VehicleListFilter.selected:
         //     return vehicles.where((vehicle) => vehicle.isBooked).toList();
@@ -38,16 +55,12 @@ final completedBookingsFromDatabaseListProvider =
 });
 
 final pendingBookingsFromDatabaseListProvider = Provider<List<Booking>>((ref) {
-  final bookingsFromDatabaseListFilterState =
-      ref.watch(allBookingsDatabaseListFilterProvider).state;
+
   final bookingsFromDatabaseListState =
-      ref.watch(allBookingsDatabaseControllerProvider.state);
-  final usersBookingsList =
-  ref.watch(allBookingsDatabaseControllerProvider).retrieveBookings();
-  final user = ref.watch(authControllerProvider.state);
+  ref.watch(allBookingsDatabaseControllerProvider.state);
   return bookingsFromDatabaseListState.maybeWhen(
       data: (bookings) {
-        return bookings.where((booking) => !booking.isCompleted && booking.userID == user!.uid).toList();// && booking.userID == user!.uid).toList();
+        return bookings.where((booking) => !(booking.isCompleted) && !(booking.isAccepted)).toList();//&& booking.userID == user!.uid && booking.isAccepted).toList();// && booking.userID == user!.uid).toList();
         // switch (vehicleListFilterState) {
         //   case VehicleListFilter.selected:
         //     return vehicles.where((vehicle) => vehicle.isBooked).toList();

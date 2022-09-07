@@ -78,6 +78,7 @@ class AddVehicleDialog extends HookWidget {
                       : Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
+                  Vehicle vehicle = Vehicle(nickName: vehicleNickName.text.trim(), vehicleMake: vehicleMake.text.trim(), vehicleModel: vehicleModel.text.trim(), vehicleYear: vehicleYear.text.trim(), engineSize: engineSize.text.trim(), tireSpec: tireSpec.text.trim());
                   isUpdating
                       ? context.read(vehicleControllerProvider).updateVehicle(
                     updatedVehicle: vehicle.copyWith(
@@ -94,14 +95,10 @@ class AddVehicleDialog extends HookWidget {
                       print("Vehicle Added!"),
                   })
 
-                      : context
+                      :
+                  context
                       .read(vehicleControllerProvider)
-                      .addVehicle(vehicleMake: vehicleMake.text.trim(),
-                    vehicleModel: vehicleModel.text.trim(),
-                    vehicleYear: vehicleYear.text.trim(),
-                    engineSize: engineSize.text.trim(),
-                    tireSpec: tireSpec.text.trim(),
-                    nickName: vehicleNickName.text.trim(),);
+                      .addVehicle(vehicle: vehicle);
                   Navigator.of(context).pop();
                   Fluttertoast.showToast(msg: "Vehicle Added!");
                   print("Vehicle Added!");
